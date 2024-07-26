@@ -6,3 +6,19 @@ export class CategoryCreateDto {
   @IsString()
   category_name: string;
 }
+
+export class CategoryUpdateDto {
+  @ApiProperty()
+  @IsString()
+  id: string;
+
+  @ApiProperty()
+  @IsString()
+  category_name: string;
+}
+
+export class CategoryDeleteDto {
+  @ApiProperty()
+  @IsString()
+  id: string;
+}

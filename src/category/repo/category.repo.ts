@@ -3,40 +3,40 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class CategoryRepo extends BaseRepo<any> {
-	constructor() {
-		super(`public.category`);
-	}
+  constructor() {
+    super(`public.category`);
+  }
 
-	async create(params) {
-		const data = await this.insert({
-			id: this.generateRecordId(),
-            name: params.category_name
-		});
+  async create(params) {
+    const data = await this.insert({
+      id: this.generateRecordId(),
+      name: params.category_name,
+    });
 
-		return data;
-	}
+    return data;
+  }
 
-	async updateOne(params) {
-		const data = await this.updateById(params.id, {
-			
-		});
+  async updateOne(params) {
+    const data = await this.updateById(params.id, {
+      name: params.category_name,
+    });
 
-		return data;
-	}
+    return data;
+  }
 
-	async deleteOne(params) {
-		const data = await this.updateById(params.id, {
-			is_deleted: true,
-		});
+  async deleteOne(params) {
+    const data = await this.updateById(params.id, {
+      is_deleted: true,
+    });
 
-		return data;
-	}
+    return { success: true };
+  }
 
-	// async list(params) {
-	// 	const knex = this.knex;
-	// }
+  // async list(params) {
+  // 	const knex = this.knex;
+  // }
 
-	// async getOne(params) {
-	// 	const knex = this.knex;
-	// }
+  // async getOne(params) {
+  // 	const knex = this.knex;
+  // }
 }
