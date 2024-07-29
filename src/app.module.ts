@@ -6,6 +6,7 @@ import { AppService } from "./app.service";
 import { SharedModule } from "@shared/shared.module";
 import { CategoryModule } from './category/category.module';
 import { SubCategoryModule } from './sub-category/sub-category.module';
+import { ValumeTypeModule } from './valume-type/valume-type.module';
 
 
 
@@ -17,7 +18,8 @@ import { SubCategoryModule } from './sub-category/sub-category.module';
     }),
     SharedModule,
     CategoryModule,
-    SubCategoryModule
+    SubCategoryModule,
+    ValumeTypeModule
   ],
   controllers: [AppController],
   providers: [AppService]

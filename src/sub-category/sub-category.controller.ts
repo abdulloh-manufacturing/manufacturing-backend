@@ -1,9 +1,10 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { SubCategoryService } from './sub-category.service';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { SubCategoryCreateDto, SubCategoryDeleteDto, SubCategoryUpdateDto } from './dto/sub-category.dto';
 
 @Controller('sub-category')
+@ApiTags('sub-category')
 export class SubCategoryController {
     @Inject() private readonly subCategoryService: SubCategoryService;
 

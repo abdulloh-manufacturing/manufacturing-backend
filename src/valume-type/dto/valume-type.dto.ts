@@ -1,23 +1,23 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 
-export class SubCategoryCreateDto {
+export class ValumeTypeCreateDto {
   @ApiProperty()
   @IsString()
-  sub_category_name: string;
+  valume_type_name: string;
 }
 
-export class SubCategoryUpdateDto {
+export class ValumeTypeUpdateDto {
   @ApiProperty()
   @IsString()
   id: string;
 
   @ApiProperty()
   @IsString()
-  sub_category_name: string;
+  valume_type_name: string;
 }
 
-export class SubCategoryDeleteDto {
+export class ValumeTypeDeleteDto {
   @ApiProperty()
   @IsString()
   id: string;

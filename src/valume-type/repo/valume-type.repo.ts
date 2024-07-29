@@ -2,15 +2,15 @@ import { BaseRepo } from '../../shared/providers/base-dao';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class SubCategoryRepo extends BaseRepo<any> {
+export class ValumeTypeRepo extends BaseRepo<any> {
   constructor() {
-    super(`public.sub_category`);
+    super(`public.valume_types`);
   }
 
   async create(params) {
     const data = await this.insert({
       id: this.generateRecordId(),
-      name: params.sub_category_name,
+      name: params.valume_type_name,
     });
 
     return data;
@@ -18,7 +18,7 @@ export class SubCategoryRepo extends BaseRepo<any> {
 
   async updateOne(params) {
     const data = await this.updateById(params.id, {
-      name: params.sub_category_name,
+      name: params.valume_name,
     });
 
     return data;
