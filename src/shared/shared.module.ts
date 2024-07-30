@@ -7,9 +7,11 @@ import { Module } from '@nestjs/common';
 import { KnexService } from './providers/knex-service';
 
 import { JwtModule } from '@nestjs/jwt';
-import { CustomRedisService } from '@shared/providers/redis-service';
+// import { CustomRedisService } from '@shared/providers/redis-service';
 import { RedisModule } from 'nestjs-redis';
-import { ConfigService } from '@shared/providers/config.service';
+import { ConfigService } from '@nestjs/config';
+import { CustomRedisService } from './providers/redis-service';
+// import { ConfigService } from '@shared/providers/config.service';
 
 const repos = [];
 
