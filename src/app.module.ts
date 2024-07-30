@@ -9,8 +9,6 @@ import { SubCategoryModule } from './sub-category/sub-category.module';
 import { ValumeTypeModule } from './valume-type/valume-type.module';
 
 
-
-
 @Module({
   imports: [
     ConfigModule.forRoot({

@@ -1,5 +1,5 @@
 {
-  "name": "ijro-backend-starter",
+  "name": "manufacturing",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "nest build",
+    "build": "nest build --output public",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -44,7 +44,8 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "sha1": "^1.1.1",
-    "swagger-ui-express": "^4.1.5"
+    "swagger-ui-express": "^4.1.5",
+    "vercel": "^35.2.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.5.1",
