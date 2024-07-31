@@ -7,6 +7,7 @@ import { SharedModule } from "@shared/shared.module";
 import { CategoryModule } from './category/category.module';
 import { SubCategoryModule } from './sub-category/sub-category.module';
 import { ValumeTypeModule } from './valume-type/valume-type.module';
+import { ProductsModule } from './products/products.module';
 
 
 @Module({
@@ -17,7 +18,8 @@ import { ValumeTypeModule } from './valume-type/valume-type.module';
     SharedModule,
     CategoryModule,
     SubCategoryModule,
-    ValumeTypeModule
+    ValumeTypeModule,
+    ProductsModule
   ],
   controllers: [AppController],
   providers: [AppService]
