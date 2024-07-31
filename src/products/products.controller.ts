@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { ProductCreateDto, ProductDeleteDto, ProductUpdateDto } from './dto/products.dto';
@@ -33,5 +33,10 @@ export class ProductsController {
   @Post('delete')
   async delete(@Body() params:ProductDeleteDto) {
     return this.productsService.delete(params);
+  }
+
+  @Get('list')
+  async list(){
+    return this.productsService.list()
   }
 }

@@ -32,9 +32,16 @@ export class ValumeTypeRepo extends BaseRepo<any> {
     return { success: true };
   }
 
-  // async list(params) {
-  // 	const knex = this.knex;
-  // }
+  async list() {
+  	const knex = this.knex;
+
+    const query = knex
+			.select(['vt.*'])
+			.from(`${this.tableName} as vt`)
+			.whereRaw('vt.is_deleted is not true');
+
+      return query
+  }
 
   // async getOne(params) {
   // 	const knex = this.knex;

@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { SubCategoryService } from './sub-category.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { SubCategoryCreateDto, SubCategoryDeleteDto, SubCategoryUpdateDto } from './dto/sub-category.dto';
@@ -33,5 +33,10 @@ export class SubCategoryController {
   @Post('delete')
   async delete(@Body() params:SubCategoryDeleteDto) {
     return this.subCategoryService.delete(params);
+  }
+
+  @Get('list')
+  async list(){
+    return this.subCategoryService.list()
   }
 }

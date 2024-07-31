@@ -4,7 +4,7 @@ import { ProductsRepo } from './repo/products.repo';
 @Injectable()
 export class ProductsService {
   @Inject() private readonly productsRepo: ProductsRepo;
-  
+
   async create(params) {
     return this.productsRepo.create(params);
   }
@@ -16,4 +16,8 @@ export class ProductsService {
   async delete(params) {
     return this.productsRepo.deleteOne(params);
   }
+
+  async list(){
+    return this.productsRepo.list()
+}
 }

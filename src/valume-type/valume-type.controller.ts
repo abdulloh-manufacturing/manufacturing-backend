@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { ValumeTypeService } from './valume-type.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { ValumeTypeCreateDto, ValumeTypeDeleteDto, ValumeTypeUpdateDto } from './dto/valume-type.dto';
@@ -33,5 +33,10 @@ export class ValumeTypeController {
     @Post('delete')
     async delete(@Body() params:ValumeTypeDeleteDto) {
       return this.valumeTypeService.delete(params);
+    }
+
+    @Get('list')
+    async list(){
+      return this.valumeTypeService.list();
     }
 }

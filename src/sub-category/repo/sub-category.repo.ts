@@ -32,9 +32,16 @@ export class SubCategoryRepo extends BaseRepo<any> {
     return { success: true };
   }
 
-  // async list(params) {
-  // 	const knex = this.knex;
-  // }
+  async list() {
+  	const knex = this.knex;
+
+    const query = knex
+			.select(['sc.*'])
+			.from(`${this.tableName} as sc`)
+			.whereRaw('sc.is_deleted is not true');
+
+      return query
+  }
 
   // async getOne(params) {
   // 	const knex = this.knex;

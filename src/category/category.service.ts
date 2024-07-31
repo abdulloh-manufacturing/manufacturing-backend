@@ -16,4 +16,8 @@ export class CategoryService {
 	async delete(params) {
 		return this.categoryRepo.deleteOne(params);
 	}
+
+	async list(){
+		return this.categoryRepo.list()
+	}
 }
