@@ -17,7 +17,15 @@ export class ProductsService {
     return this.productsRepo.deleteOne(params);
   }
 
-  async list(){
-    return this.productsRepo.list()
-}
+  async list() {
+    return this.productsRepo.list();
+  }
+
+  async deletedList() {
+    return this.productsRepo.deletedList();
+  }
+
+  async listAll(){
+    return this.productsRepo.listAll();
+  }
 }

@@ -54,9 +54,66 @@ export class ProductsRepo extends BaseRepo<any> {
     const knex = this.knex;
 
     const query = knex
-      .select(['p.*'])
+      .select([
+        'p.id',
+        'p.name',
+        'p.category_id',
+        'p.sub_category_id',
+        'p.valume_type_id',
+        'p.value',
+        'p.color',
+        'p.code',
+        'p.price',
+        'p.currency_type',
+        'p.model_id',
+      ])
       .from(`${this.tableName} as p`)
       .whereRaw('p.is_deleted is not true');
+
+    return query;
+  }
+
+  async deletedList() {
+    const knex = this.knex;
+
+    const query = knex
+      .select([
+        'p.id',
+        'p.name',
+        'p.category_id',
+        'p.sub_category_id',
+        'p.valume_type_id',
+        'p.value',
+        'p.color',
+        'p.code',
+        'p.price',
+        'p.currency_type',
+        'p.model_id',
+      ])
+      .from(`${this.tableName} as p`)
+      .whereRaw('p.is_deleted is true');
+
+    return query;
+  }
+
+  async listAll() {
+    const knex = this.knex;
+
+    const query = knex
+      .select([
+        'p.id',
+        'p.name',
+        'p.category_id',
+        'p.sub_category_id',
+        'p.valume_type_id',
+        'p.value',
+        'p.color',
+        'p.code',
+        'p.price',
+        'p.currency_type',
+        'p.model_id',
+      ])
+      .from(`${this.tableName} as p`);
 
     return query;
   }

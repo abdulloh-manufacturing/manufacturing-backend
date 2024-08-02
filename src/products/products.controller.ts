@@ -39,4 +39,14 @@ export class ProductsController {
   async list(){
     return this.productsService.list()
   }
+
+  @Get('deleted-list')
+  async deletedList(){
+    return this.productsService.deletedList()
+  }
+
+  @Get('list-all')
+  async listAll(){
+    return this.productsService.listAll()
+  }
 }
