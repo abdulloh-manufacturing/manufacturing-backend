@@ -21,6 +21,26 @@ export class ProductCreateDto {
   @ApiProperty()
   @IsNumber()
   value: number;
+
+  @ApiProperty()
+  @IsString()
+  color: string;
+
+  @ApiProperty()
+  @IsString()
+  code: string;
+
+  @ApiProperty()
+  @IsNumber()
+  price: number;
+
+  @ApiProperty()
+  @IsString()
+  currency_type: string;
+
+  @ApiProperty()
+  @IsString()
+  model_id:string;
 }
 
 export class ProductUpdateDto {
@@ -52,6 +72,31 @@ export class ProductUpdateDto {
   @IsNumber()
   @IsOptional()
   value?: number;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  color?: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  code?: string;
+
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  price?: number;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  currency_type?: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  model_id?:string;
 }
 
 export class ProductDeleteDto {

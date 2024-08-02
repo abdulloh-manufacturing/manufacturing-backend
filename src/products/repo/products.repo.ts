@@ -14,7 +14,12 @@ export class ProductsRepo extends BaseRepo<any> {
       category_id: params.category_id,
       sub_category_id: params.sub_category_id,
       valume_type_id: params.valume_type_id,
-      value: params.value
+      value: params.value,
+      color: params.color,
+      code: params.code,
+      price: params.price,
+      currency_type: params.currency_type,
+      model_id: params.model_id,
     });
 
     return data;
@@ -22,11 +27,16 @@ export class ProductsRepo extends BaseRepo<any> {
 
   async updateOne(params) {
     const data = await this.updateById(params.id, {
-        name: params.product_name,
-        category_id: params.category_id,
-        sub_category_id: params.sub_category_id,
-        valume_type_id: params.valume_type_id,
-        value: params.value
+      name: params.product_name,
+      category_id: params.category_id,
+      sub_category_id: params.sub_category_id,
+      valume_type_id: params.valume_type_id,
+      value: params.value,
+      color: params.color,
+      code: params.code,
+      price: params.price,
+      currency_type: params.currency_type,
+      model_id: params.model_id,
     });
 
     return data;
@@ -43,13 +53,13 @@ export class ProductsRepo extends BaseRepo<any> {
   async list() {
     const knex = this.knex;
 
-  const query = knex
-          .select(['p.*'])
-          .from(`${this.tableName} as p`)
-          .whereRaw('p.is_deleted is not true');
+    const query = knex
+      .select(['p.*'])
+      .from(`${this.tableName} as p`)
+      .whereRaw('p.is_deleted is not true');
 
-    return query
-}
+    return query;
+  }
 
   // async getOne(params) {
   // 	const knex = this.knex;

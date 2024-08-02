@@ -8,6 +8,7 @@ import { CategoryModule } from './category/category.module';
 import { SubCategoryModule } from './sub-category/sub-category.module';
 import { ValumeTypeModule } from './valume-type/valume-type.module';
 import { ProductsModule } from './products/products.module';
+import { ModelTypeModule } from './model-type/model-type.module';
 
 
 @Module({
@@ -19,7 +20,8 @@ import { ProductsModule } from './products/products.module';
     CategoryModule,
     SubCategoryModule,
     ValumeTypeModule,
-    ProductsModule
+    ProductsModule,
+    ModelTypeModule,
   ],
   controllers: [AppController],
   providers: [AppService]
