@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { ProductCreateDto, ProductDeleteDto, ProductUpdateDto } from './dto/products.dto';
+import { ProductCreateDto, ProductDeleteDto, ProductListDto, ProductUpdateDto } from './dto/products.dto';
 
 @ApiTags('products')
 @Controller('products')
@@ -9,8 +9,7 @@ export class ProductsController {
     @Inject() private readonly productsService: ProductsService;
 
   @ApiBody({
-    type: ProductCreateDto,
-    description: 'sub-category create',
+    type: ProductCreateDto
   })
   @Post('create')
   async create(@Body() params: ProductCreateDto) {
@@ -18,8 +17,7 @@ export class ProductsController {
   }
 
   @ApiBody({
-    type: ProductUpdateDto,
-    description: 'sub-category update',
+    type: ProductUpdateDto
   })
   @Post('update')
   async update(@Body() params:ProductUpdateDto) {
@@ -27,26 +25,18 @@ export class ProductsController {
   }
 
   @ApiBody({
-    type: ProductDeleteDto,
-    description: 'sub-category delete',
+    type: ProductDeleteDto
   })
   @Post('delete')
   async delete(@Body() params:ProductDeleteDto) {
     return this.productsService.delete(params);
   }
 
-  @Get('list')
-  async list(){
-    return this.productsService.list()
-  }
-
-  @Get('deleted-list')
-  async deletedList(){
-    return this.productsService.deletedList()
-  }
-
-  @Get('list-all')
-  async listAll(){
-    return this.productsService.listAll()
+  @ApiBody({
+    type: ProductListDto
+  })
+  @Post('list')
+  async list(@Body() params: ProductListDto){
+    return this.productsService.list(params)
   }
 }

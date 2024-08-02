@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import { BaseRepo } from '../../shared/providers/base-dao';
 import { Injectable } from '@nestjs/common';
 
@@ -50,54 +51,10 @@ export class ProductsRepo extends BaseRepo<any> {
     return { success: true };
   }
 
-  async list() {
+  async list(params) {
     const knex = this.knex;
 
-    const query = knex
-      .select([
-        'p.id',
-        'p.name',
-        'p.category_id',
-        'p.sub_category_id',
-        'p.valume_type_id',
-        'p.value',
-        'p.color',
-        'p.code',
-        'p.price',
-        'p.currency_type',
-        'p.model_id',
-      ])
-      .from(`${this.tableName} as p`)
-      .whereRaw('p.is_deleted is not true');
-
-    return query;
-  }
-
-  async deletedList() {
-    const knex = this.knex;
-
-    const query = knex
-      .select([
-        'p.id',
-        'p.name',
-        'p.category_id',
-        'p.sub_category_id',
-        'p.valume_type_id',
-        'p.value',
-        'p.color',
-        'p.code',
-        'p.price',
-        'p.currency_type',
-        'p.model_id',
-      ])
-      .from(`${this.tableName} as p`)
-      .whereRaw('p.is_deleted is true');
-
-    return query;
-  }
-
-  async listAll() {
-    const knex = this.knex;
+    const { is_deleted } = params;
 
     const query = knex
       .select([
@@ -114,6 +71,16 @@ export class ProductsRepo extends BaseRepo<any> {
         'p.model_id',
       ])
       .from(`${this.tableName} as p`);
+
+    if (is_deleted === false) {
+      query.whereRaw('p.is_deleted is not true');
+    }
+
+    if (is_deleted === true) {
+      query.whereRaw('p.is_deleted is true');
+    }
+
+    // console.log(query.toString());
 
     return query;
   }

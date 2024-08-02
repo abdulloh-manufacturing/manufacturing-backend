@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class ProductCreateDto {
   @ApiProperty()
@@ -103,4 +103,11 @@ export class ProductDeleteDto {
   @ApiProperty()
   @IsString()
   id: string;
+}
+
+export class ProductListDto {
+    @ApiProperty()
+    @IsOptional()
+    @IsBoolean()
+    is_deleted?:boolean;
 }
