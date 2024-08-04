@@ -20,4 +20,8 @@ export class ModelTypeService {
 	async list(){
 		return this.modelTypeRepo.list()
 	}
+
+    async getOne(params) {
+		return this.modelTypeRepo.getOne(params);
+	}
 }

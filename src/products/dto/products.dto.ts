@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsDefined, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class ProductCreateDto {
   @ApiProperty()
@@ -110,4 +110,21 @@ export class ProductListDto {
     @IsOptional()
     @IsBoolean()
     is_deleted?:boolean;
+
+    @ApiProperty({example:1})
+    @IsNumber()
+    @IsOptional()
+    page?: number;
+
+    @ApiProperty({example:20})
+    @IsNumber()
+    @IsOptional()
+    limit?: number;
+}
+
+export class ProductByIdDto {
+	@ApiProperty()
+	@IsString()
+	@IsDefined()
+	id: string;
 }

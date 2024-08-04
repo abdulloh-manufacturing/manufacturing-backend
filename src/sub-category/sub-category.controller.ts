@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { SubCategoryService } from './sub-category.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { SubCategoryCreateDto, SubCategoryDeleteDto, SubCategoryUpdateDto } from './dto/sub-category.dto';
+import { SubCategoryByIdDto, SubCategoryCreateDto, SubCategoryDeleteDto, SubCategoryUpdateDto } from './dto/sub-category.dto';
 
 @Controller('sub-category')
 @ApiTags('sub-category')
@@ -39,4 +39,13 @@ export class SubCategoryController {
   async list(){
     return this.subCategoryService.list()
   }
+
+  @ApiBody({
+		type: SubCategoryByIdDto,
+		description: 'get one',
+	})
+	@Post('get-one')
+	async getOne(@Body() params: SubCategoryByIdDto) {
+		return this.subCategoryService.getOne(params);
+	}
 }

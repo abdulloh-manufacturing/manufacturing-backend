@@ -33,17 +33,26 @@ export class ModelTypeRepo extends BaseRepo<any> {
   }
 
   async list() {
-  	const knex = this.knex;
+    const knex = this.knex;
 
     const query = knex
-			.select(['m.*'])
-			.from(`${this.tableName} as m`)
-			.whereRaw('m.is_deleted is not true');
+      .select(['m.*'])
+      .from(`${this.tableName} as m`)
+      .whereRaw('m.is_deleted is not true');
 
-      return query
+    return query;
   }
 
-  // async getOne(params) {
-  // 	const knex = this.knex;
-  // }
+  async getOne(params) {
+    const knex = this.knex;
+
+    const query = knex
+      .select([knex.raw('m.*')])
+      .from(`${this.tableName} as m`)
+      .where('m.id', params.id)
+      .whereRaw('m.is_deleted is not true')
+      .first();
+
+    return query;
+  }
 }

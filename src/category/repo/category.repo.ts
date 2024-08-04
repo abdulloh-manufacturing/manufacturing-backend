@@ -43,7 +43,16 @@ export class CategoryRepo extends BaseRepo<any> {
       return query
   }
 
-  // async getOne(params) {
-  // 	const knex = this.knex;
-  // }
+  async getOne(params) {
+  	const knex = this.knex;
+
+    const query = knex
+			.select([knex.raw('c.*')])
+			.from(`${this.tableName} as c`)
+			.where('c.id', params.id)
+			.whereRaw('c.is_deleted is not true')
+			.first();
+
+		return query;
+  }
 }

@@ -54,7 +54,8 @@ export class ProductsRepo extends BaseRepo<any> {
   async list(params) {
     const knex = this.knex;
 
-    const { is_deleted } = params;
+    const { is_deleted, page, limit = 20 } = params;
+    const offset = (page - 1) * limit;
 
     const query = knex
       .select([
@@ -70,7 +71,9 @@ export class ProductsRepo extends BaseRepo<any> {
         'p.currency_type',
         'p.model_id',
       ])
-      .from(`${this.tableName} as p`);
+      .from(`${this.tableName} as p`)
+      .limit(limit ? Number(limit) : 20)
+      .offset(offset ? Number(offset) : 0);
 
     if (is_deleted === false) {
       query.whereRaw('p.is_deleted is not true');
@@ -85,7 +88,16 @@ export class ProductsRepo extends BaseRepo<any> {
     return query;
   }
 
-  // async getOne(params) {
-  // 	const knex = this.knex;
-  // }
+  async getOne(params) {
+    const knex = this.knex;
+
+    const query = knex
+      .select([knex.raw('p.*')])
+      .from(`${this.tableName} as p`)
+      .where('p.id', params.id)
+      .whereRaw('p.is_deleted is not true')
+      .first();
+
+    return query;
+  }
 }

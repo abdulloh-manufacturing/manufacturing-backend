@@ -11,6 +11,7 @@ export class ValumeTypeRepo extends BaseRepo<any> {
     const data = await this.insert({
       id: this.generateRecordId(),
       name: params.valume_type_name,
+      sub_category_id: params.sub_category_id
     });
 
     return data;
@@ -19,6 +20,7 @@ export class ValumeTypeRepo extends BaseRepo<any> {
   async updateOne(params) {
     const data = await this.updateById(params.id, {
       name: params.valume_name,
+      sub_category_id: params.sub_category_id
     });
 
     return data;
@@ -43,7 +45,16 @@ export class ValumeTypeRepo extends BaseRepo<any> {
       return query
   }
 
-  // async getOne(params) {
-  // 	const knex = this.knex;
-  // }
+  async getOne(params) {
+  	const knex = this.knex;
+
+    const query = knex
+			.select([knex.raw('vt.*')])
+			.from(`${this.tableName} as vt`)
+			.where('vt.id', params.id)
+			.whereRaw('vt.is_deleted is not true')
+			.first();
+
+		return query;
+  }
 }

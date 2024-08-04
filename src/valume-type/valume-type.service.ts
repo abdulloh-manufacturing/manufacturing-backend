@@ -20,4 +20,8 @@ export class ValumeTypeService {
   async list(){
 		return this.valumeTypeRepo.list()
 	}
+
+  async getOne(params) {
+		return this.valumeTypeRepo.getOne(params);
+	}
 }

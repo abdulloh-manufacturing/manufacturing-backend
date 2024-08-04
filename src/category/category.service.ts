@@ -20,4 +20,8 @@ export class CategoryService {
 	async list(){
 		return this.categoryRepo.list()
 	}
+
+	async getOne(params) {
+		return this.categoryRepo.getOne(params);
+	}
 }

@@ -20,4 +20,8 @@ export class ProductsService {
   async list(params) {
     return this.productsRepo.list(params);
   }
+
+  async getOne(params) {
+    return this.productsRepo.getOne(params);
+}
 }

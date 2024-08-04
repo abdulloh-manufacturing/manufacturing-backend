@@ -1,12 +1,17 @@
 import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { ModelTypeService } from './model-type.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { ModelCreateDto, ModelDeleteDto, ModelUpdateDto } from './dto/model-type.dto';
+import {
+  ModelByIdDto,
+  ModelCreateDto,
+  ModelDeleteDto,
+  ModelUpdateDto,
+} from './dto/model-type.dto';
 
 @ApiTags('model-type')
 @Controller('model-type')
 export class ModelTypeController {
-    @Inject() private readonly modelTypeService: ModelTypeService;
+  @Inject() private readonly modelTypeService: ModelTypeService;
 
   @ApiBody({
     type: ModelCreateDto,
@@ -22,7 +27,7 @@ export class ModelTypeController {
     description: 'Category update',
   })
   @Post('update')
-  async update(@Body() params:ModelUpdateDto) {
+  async update(@Body() params: ModelUpdateDto) {
     return this.modelTypeService.update(params);
   }
 
@@ -31,12 +36,21 @@ export class ModelTypeController {
     description: 'Category delete',
   })
   @Post('delete')
-  async delete(@Body() params:ModelDeleteDto) {
+  async delete(@Body() params: ModelDeleteDto) {
     return this.modelTypeService.delete(params);
   }
 
   @Get('list')
-  async list(){
-    return this.modelTypeService.list()
+  async list() {
+    return this.modelTypeService.list();
+  }
+
+  @ApiBody({
+    type: ModelByIdDto,
+    description: 'get one',
+  })
+  @Post('get-one')
+  async getOne(@Body() params: ModelByIdDto) {
+    return this.modelTypeService.getOne(params);
   }
 }

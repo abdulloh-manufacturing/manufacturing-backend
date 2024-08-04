@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsDefined, IsString } from 'class-validator';
 
 export class ModelCreateDto {
   @ApiProperty()
@@ -21,4 +21,12 @@ export class ModelDeleteDto {
   @ApiProperty()
   @IsString()
   id: string;
+}
+
+
+export class ModelByIdDto {
+	@ApiProperty()
+	@IsString()
+	@IsDefined()
+	id: string;
 }
