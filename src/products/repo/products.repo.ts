@@ -59,11 +59,11 @@ export class ProductsRepo extends BaseRepo<any> {
 
     const query = knex
       .select([
-        'p.id',
-        'p.name',
-        'p.category_id',
-        'p.sub_category_id',
-        'p.valume_type_id',
+        knex.raw('distinct p.id'),
+        knex.raw('p.name as product_name'),
+        knex.raw('c.name as category_name'),
+        knex.raw('sc.name as sub_category_name'),
+        knex.raw('vt.name as valume_type_name'),
         'p.value',
         'p.color',
         'p.code',
@@ -72,6 +72,9 @@ export class ProductsRepo extends BaseRepo<any> {
         'p.model_id',
       ])
       .from(`${this.tableName} as p`)
+      .leftJoin('category as c', 'p.category_id', 'c.id')
+      .leftJoin('sub_category as sc', 'sc.sub_category_id', 'p.id')
+      .leftJoin('valume_types as vt', 'sc.valume_type_id', 'vt.id')
       .limit(limit ? Number(limit) : 20)
       .offset(offset ? Number(offset) : 0);
 

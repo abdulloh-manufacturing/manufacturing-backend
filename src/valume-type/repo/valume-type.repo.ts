@@ -38,11 +38,12 @@ export class ValumeTypeRepo extends BaseRepo<any> {
   	const knex = this.knex;
 
     const query = knex
-			.select(['vt.*'])
+			.select(knex.raw(['distinct vt.id', 'vt.name', 'sc.name as sub_category_name']))
 			.from(`${this.tableName} as vt`)
+      .leftJoin('sub_category as sc', 'sc.id', 'vt.sub_category_id')
 			.whereRaw('vt.is_deleted is not true');
 
-      return query
+      return query;
   }
 
   async getOne(params) {
