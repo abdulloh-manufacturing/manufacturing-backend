@@ -73,8 +73,8 @@ export class ProductsRepo extends BaseRepo<any> {
       ])
       .from(`${this.tableName} as p`)
       .leftJoin('category as c', 'p.category_id', 'c.id')
-      .leftJoin('sub_category as sc', 'sc.sub_category_id', 'p.id')
-      .leftJoin('valume_types as vt', 'sc.valume_type_id', 'vt.id')
+      .leftJoin('sub_category as sc', 'sc.id', 'p.sub_category_id')
+      .leftJoin('valume_types as vt', 'p.valume_type_id', 'vt.id')
       .limit(limit ? Number(limit) : 20)
       .offset(offset ? Number(offset) : 0);
 
