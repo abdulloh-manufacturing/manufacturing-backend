@@ -48,11 +48,16 @@ export class SubCategoryRepo extends BaseRepo<any> {
   async getOne(params) {
   	const knex = this.knex;
 
+    console.log(params);
+    
+
     const query = knex
-			.select([knex.raw('sc.*')])
+			.select(knex.raw(['sc.id', 'sc.name', 'array_agg(to_json(vt.*)) as valume_types']))
 			.from(`${this.tableName} as sc`)
+      .leftJoin('valume_types as vt', 'vt.sub_category_id', 'sc.id')
 			.where('sc.id', params.id)
 			.whereRaw('sc.is_deleted is not true')
+      .groupBy('sc.id')
 			.first();
 
 		return query;

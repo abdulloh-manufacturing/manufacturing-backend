@@ -47,10 +47,12 @@ export class CategoryRepo extends BaseRepo<any> {
   	const knex = this.knex;
 
     const query = knex
-			.select([knex.raw('c.*')])
+			.select(knex.raw(['c.id', 'c.name', 'array_agg(to_json(sc.*)) as sub_categories']))
 			.from(`${this.tableName} as c`)
+      .leftJoin('sub_category as sc', 'sc.category_id', 'c.id')
 			.where('c.id', params.id)
 			.whereRaw('c.is_deleted is not true')
+      .groupBy('c.id')
 			.first();
 
 		return query;
