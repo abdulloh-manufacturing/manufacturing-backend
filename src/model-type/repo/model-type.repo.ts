@@ -47,7 +47,7 @@ export class ModelTypeRepo extends BaseRepo<any> {
     const knex = this.knex;
 
     const query = knex
-      .select([knex.raw('m.*')])
+      .select([knex.raw(['m.id', 'm.name as model_name', 'm.created_at'])])
       .from(`${this.tableName} as m`)
       .where('m.id', params.id)
       .whereRaw('m.is_deleted is not true')

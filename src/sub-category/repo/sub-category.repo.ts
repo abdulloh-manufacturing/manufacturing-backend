@@ -52,7 +52,7 @@ export class SubCategoryRepo extends BaseRepo<any> {
     console.log(params);
 
     const query = knex
-			.select(knex.raw(['sc.id', 'sc.name', 'array_agg(to_json(vt.*)) as valume_types']))
+			.select(knex.raw(['sc.id', 'sc.name as sub_category_name', 'array_agg(to_json(vt.*)) as valume_types']))
 			.from(`${this.tableName} as sc`)
       .leftJoin('valume_types as vt', 'vt.sub_category_id', 'sc.id')
 			.where('sc.id', params.id)

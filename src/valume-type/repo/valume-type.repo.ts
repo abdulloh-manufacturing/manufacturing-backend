@@ -50,7 +50,7 @@ export class ValumeTypeRepo extends BaseRepo<any> {
   	const knex = this.knex;
 
     const query = knex
-			.select([knex.raw('vt.*')])
+			.select([knex.raw(['vt.id', 'vt.name as valume_type_name', 'vt.sub_category_id', 'vt.created_at'])])
 			.from(`${this.tableName} as vt`)
 			.where('vt.id', params.id)
 			.whereRaw('vt.is_deleted is not true')

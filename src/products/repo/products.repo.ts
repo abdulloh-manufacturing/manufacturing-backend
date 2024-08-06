@@ -59,7 +59,7 @@ export class ProductsRepo extends BaseRepo<any> {
 
     const query = knex
       .select([
-        knex.raw('distinct p.id'),
+        'p.id',
         knex.raw('p.name as product_name'),
         knex.raw('c.name as category_name'),
         knex.raw('sc.name as sub_category_name'),
@@ -86,8 +86,6 @@ export class ProductsRepo extends BaseRepo<any> {
       query.whereRaw('p.is_deleted is true');
     }
 
-    // console.log(query.toString());
-
     return query;
   }
 
@@ -95,7 +93,20 @@ export class ProductsRepo extends BaseRepo<any> {
     const knex = this.knex;
 
     const query = knex
-      .select([knex.raw('p.*')])
+      .select([
+        'p.id',
+        knex.raw('p.name as product_name'),
+        'p.category_id',
+        'p.sub_category_id',
+        'p.valume_type_id',
+        'p.value',
+        'p.created_at',
+        'p.color',
+        'p.code',
+        'p.price',
+        'p.currency_type',
+        'p.model_id',
+      ])
       .from(`${this.tableName} as p`)
       .where('p.id', params.id)
       .whereRaw('p.is_deleted is not true')
