@@ -34,14 +34,27 @@ export class SubCategoryRepo extends BaseRepo<any> {
     return { success: true };
   }
 
-  async list() {
+  async list(params) {
   	const knex = this.knex;
 
+    const {keyword, from_date, to_date, page, limit = 20 } = params;
+    const offset = (page - 1) * limit;
+
     const query = knex
-			.select(knex.raw(['sc.id', 'sc.name', 'c.name as category_name']))
+			.select(knex.raw(['sc.id', 'sc.name', 'c.name as category_name', 'sc.created_at']))
 			.from(`${this.tableName} as sc`)
       .leftJoin('category as c', 'c.id', 'sc.category_id')
-			.whereRaw('sc.is_deleted is not true');
+			.whereRaw('sc.is_deleted is not true')
+      .limit(limit ? Number(limit) : 20)
+      .offset(offset ? Number(offset) : 0);
+
+      if (from_date && to_date) {
+        query.whereBetween('sc.created_at', [from_date, to_date]);
+      }
+
+      if (keyword) {
+        query.whereRaw(`sc.name ilike ?`, ['%' + keyword + '%']);
+      }
 
       return query
   }

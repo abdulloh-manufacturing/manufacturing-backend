@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { ValumeTypeService } from './valume-type.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { ValumeTypeByIdDto, ValumeTypeCreateDto, ValumeTypeDeleteDto, ValumeTypeUpdateDto } from './dto/valume-type.dto';
+import { ValumeTypeByIdDto, ValumeTypeCreateDto, ValumeTypeDeleteDto, ValumeTypeListDto, ValumeTypeUpdateDto } from './dto/valume-type.dto';
 
 @Controller('valume-type')
 @ApiTags('valume-type')
@@ -35,9 +35,13 @@ export class ValumeTypeController {
       return this.valumeTypeService.delete(params);
     }
 
-    @Get('list')
-    async list(){
-      return this.valumeTypeService.list();
+    @ApiBody({
+      type: ValumeTypeListDto,
+      description: 'list'
+    })
+    @Post('list')
+    async list(@Body() params: ValumeTypeListDto){
+      return this.valumeTypeService.list(params);
     }
 
     @ApiBody({

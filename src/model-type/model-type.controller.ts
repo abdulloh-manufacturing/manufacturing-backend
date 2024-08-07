@@ -5,6 +5,7 @@ import {
   ModelByIdDto,
   ModelCreateDto,
   ModelDeleteDto,
+  ModelTypeListDto,
   ModelUpdateDto,
 } from './dto/model-type.dto';
 
@@ -40,9 +41,14 @@ export class ModelTypeController {
     return this.modelTypeService.delete(params);
   }
 
-  @Get('list')
-  async list() {
-    return this.modelTypeService.list();
+
+  @ApiBody({
+    type: ModelTypeListDto,
+    description: 'list'
+  })
+  @Post('list')
+  async list(@Body() params) {
+    return this.modelTypeService.list(params);
   }
 
   @ApiBody({

@@ -17,8 +17,8 @@ export class ValumeTypeService {
     return this.valumeTypeRepo.deleteOne(params);
   }
 
-  async list(){
-		return this.valumeTypeRepo.list()
+  async list(params){
+		return this.valumeTypeRepo.list(params)
 	}
 
   async getOne(params) {

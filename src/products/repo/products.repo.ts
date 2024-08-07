@@ -1,4 +1,3 @@
-import { isEmpty } from 'lodash';
 import { BaseRepo } from '../../shared/providers/base-dao';
 import { Injectable } from '@nestjs/common';
 
@@ -54,7 +53,7 @@ export class ProductsRepo extends BaseRepo<any> {
   async list(params) {
     const knex = this.knex;
 
-    const { is_deleted, page, limit = 20 } = params;
+    const {keyword, from_date, to_date, is_deleted, page, limit = 20 } = params;
     const offset = (page - 1) * limit;
 
     const query = knex
@@ -70,6 +69,7 @@ export class ProductsRepo extends BaseRepo<any> {
         'p.price',
         'p.currency_type',
         'p.model_id',
+        'p.created_at'
       ])
       .from(`${this.tableName} as p`)
       .leftJoin('category as c', 'p.category_id', 'c.id')
@@ -85,6 +85,20 @@ export class ProductsRepo extends BaseRepo<any> {
     if (is_deleted === true) {
       query.whereRaw('p.is_deleted is true');
     }
+
+    if (from_date && to_date) {
+      query.whereBetween('p.created_at', [from_date, to_date]);
+    }
+
+    if (keyword) {
+			query.where((innerWhere) =>
+				innerWhere
+					.orWhereRaw(`p.name ilike ?`, ['%' + keyword + '%'])
+					.orWhereRaw(`c.name ilike ?`, ['%' + keyword + '%'])
+					.orWhereRaw(`sc.name ilike ?`, ['%' + keyword + '%'])
+					.orWhereRaw(`vt.name ilike ?`, ['%' + keyword + '%'])
+			);
+		}
 
     return query;
   }

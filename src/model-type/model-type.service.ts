@@ -17,8 +17,8 @@ export class ModelTypeService {
 		return this.modelTypeRepo.deleteOne(params);
 	}
 
-	async list(){
-		return this.modelTypeRepo.list()
+	async list(params){
+		return this.modelTypeRepo.list(params)
 	}
 
     async getOne(params) {

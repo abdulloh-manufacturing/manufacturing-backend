@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDefined, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDefined,
+  IsISO8601,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class SubCategoryCreateDto {
   @ApiProperty()
@@ -8,7 +16,7 @@ export class SubCategoryCreateDto {
 
   @ApiProperty()
   @IsString()
-  category_id: string
+  category_id: string;
 }
 
 export class SubCategoryUpdateDto {
@@ -24,7 +32,7 @@ export class SubCategoryUpdateDto {
   @ApiProperty()
   @IsString()
   @IsOptional()
-  category_id?: string
+  category_id?: string;
 }
 
 export class SubCategoryDeleteDto {
@@ -33,9 +41,40 @@ export class SubCategoryDeleteDto {
   id: string;
 }
 
-export class SubCategoryByIdDto {
-	@ApiProperty()
+export class SubCategoryListDto {
+  @ApiProperty()
+  @IsOptional()
 	@IsString()
-	@IsDefined()
-	id: string;
+	keyword?: string;
+  
+  @ApiProperty()
+  @IsISO8601()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  from_date: Date | string;
+
+  @ApiProperty()
+  @IsISO8601()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  to_date: Date | string;
+
+  @ApiProperty({ example: 1 })
+  @IsNumber()
+  @IsOptional()
+  page?: number;
+
+  @ApiProperty({ example: 20 })
+  @IsNumber()
+  @IsOptional()
+  limit?: number;
+}
+
+export class SubCategoryByIdDto {
+  @ApiProperty()
+  @IsString()
+  @IsDefined()
+  id: string;
 }

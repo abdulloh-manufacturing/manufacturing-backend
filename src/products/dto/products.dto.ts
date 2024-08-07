@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsDefined, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDefined,
+  IsISO8601,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class ProductCreateDto {
   @ApiProperty()
@@ -40,7 +48,7 @@ export class ProductCreateDto {
 
   @ApiProperty()
   @IsString()
-  model_id:string;
+  model_id: string;
 }
 
 export class ProductUpdateDto {
@@ -96,7 +104,7 @@ export class ProductUpdateDto {
   @ApiProperty()
   @IsString()
   @IsOptional()
-  model_id?:string;
+  model_id?: string;
 }
 
 export class ProductDeleteDto {
@@ -106,25 +114,44 @@ export class ProductDeleteDto {
 }
 
 export class ProductListDto {
-    @ApiProperty()
-    @IsOptional()
-    @IsBoolean()
-    is_deleted?:boolean;
+  @ApiProperty()
+  @IsOptional()
+	@IsString()
+	keyword?: string;
 
-    @ApiProperty({example:1})
-    @IsNumber()
-    @IsOptional()
-    page?: number;
+  @ApiProperty()
+  @IsISO8601()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  from_date: Date | string;
 
-    @ApiProperty({example:20})
-    @IsNumber()
-    @IsOptional()
-    limit?: number;
+  @ApiProperty()
+  @IsISO8601()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  to_date: Date | string;
+
+  @ApiProperty({ example: false })
+  @IsOptional()
+  @IsBoolean()
+  is_deleted?: boolean;
+
+  @ApiProperty({ example: 1 })
+  @IsNumber()
+  @IsOptional()
+  page?: number;
+
+  @ApiProperty({ example: 20 })
+  @IsNumber()
+  @IsOptional()
+  limit?: number;
 }
 
 export class ProductByIdDto {
-	@ApiProperty()
-	@IsString()
-	@IsDefined()
-	id: string;
+  @ApiProperty()
+  @IsString()
+  @IsDefined()
+  id: string;
 }

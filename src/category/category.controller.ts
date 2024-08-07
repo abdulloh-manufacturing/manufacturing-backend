@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { CategoryService } from './category.service';
-import { CategoryByIdDto, CategoryCreateDto, CategoryDeleteDto, CategoryUpdateDto } from './dto/category.dto';
+import { CategoryByIdDto, CategoryCreateDto, CategoryDeleteDto, CategoryListDto, CategoryUpdateDto } from './dto/category.dto';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('category')
@@ -35,9 +35,13 @@ export class CategoryController {
     return this.categoryService.delete(params);
   }
 
-  @Get('list')
-  async list(){
-    return this.categoryService.list()
+  @ApiBody({
+    type: CategoryListDto,
+    description: 'list'
+  })
+  @Post('list')
+  async list(@Body() params: CategoryListDto){
+    return this.categoryService.list(params)
   }
 
   @ApiBody({

@@ -32,29 +32,48 @@ export class CategoryRepo extends BaseRepo<any> {
     return { success: true };
   }
 
-  async list() {
-  	const knex = this.knex;
+  async list(params) {
+    const knex = this.knex;
+
+    const { keyword, from_date, to_date, page, limit = 20 } = params;
+    const offset = (page - 1) * limit;
 
     const query = knex
-			.select(['c.*'])
-			.from(`${this.tableName} as c`)
-			.whereRaw('c.is_deleted is not true');
+      .select(['c.id', 'c.name', 'c.created_at'])
+      .from(`${this.tableName} as c`)
+      .whereRaw('c.is_deleted is not true')
+      .limit(limit ? Number(limit) : 20)
+      .offset(offset ? Number(offset) : 0);
 
-      return query
+    if (from_date && to_date) {
+      query.whereBetween('c.created_at', [from_date, to_date]);
+    }
+
+    if (keyword) {
+      query.whereRaw(`c.name ilike ?`, ['%' + keyword + '%']);
+    }
+
+    return query;
   }
 
   async getOne(params) {
-  	const knex = this.knex;
+    const knex = this.knex;
 
     const query = knex
-			.select(knex.raw(['c.id', 'c.name as category_name', 'array_agg(to_json(sc.*)) as sub_categories']))
-			.from(`${this.tableName} as c`)
+      .select(
+        knex.raw([
+          'c.id',
+          'c.name as category_name',
+          'array_agg(to_json(sc.*)) as sub_categories',
+        ]),
+      )
+      .from(`${this.tableName} as c`)
       .leftJoin('sub_category as sc', 'sc.category_id', 'c.id')
-			.where('c.id', params.id)
-			.whereRaw('c.is_deleted is not true')
+      .where('c.id', params.id)
+      .whereRaw('c.is_deleted is not true')
       .groupBy('c.id')
-			.first();
+      .first();
 
-		return query;
+    return query;
   }
 }

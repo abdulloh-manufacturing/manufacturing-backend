@@ -9,6 +9,7 @@ import { SubCategoryModule } from './sub-category/sub-category.module';
 import { ValumeTypeModule } from './valume-type/valume-type.module';
 import { ProductsModule } from './products/products.module';
 import { ModelTypeModule } from './model-type/model-type.module';
+import { OutProductModule } from './out-product/out-product.module';
 
 
 @Module({
@@ -22,6 +23,7 @@ import { ModelTypeModule } from './model-type/model-type.module';
     ValumeTypeModule,
     ProductsModule,
     ModelTypeModule,
+    OutProductModule,
   ],
   controllers: [AppController],
   providers: [AppService]
