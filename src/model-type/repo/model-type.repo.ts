@@ -39,7 +39,7 @@ export class ModelTypeRepo extends BaseRepo<any> {
     const offset = (page - 1) * limit;
 
     const query = knex
-      .select(['m.id', 'm.name', 'm.created_at'])
+      .select(['m.id', knex.raw('m.name as model_name'), 'm.created_at'])
       .from(`${this.tableName} as m`)
       .whereRaw('m.is_deleted is not true')
       .limit(limit ? Number(limit) : 20)

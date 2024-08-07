@@ -39,7 +39,7 @@ export class CategoryRepo extends BaseRepo<any> {
     const offset = (page - 1) * limit;
 
     const query = knex
-      .select(['c.id', 'c.name', 'c.created_at'])
+      .select(['c.id', knex.raw('c.name as category_name'), 'c.created_at'])
       .from(`${this.tableName} as c`)
       .whereRaw('c.is_deleted is not true')
       .limit(limit ? Number(limit) : 20)

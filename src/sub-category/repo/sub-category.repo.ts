@@ -41,7 +41,7 @@ export class SubCategoryRepo extends BaseRepo<any> {
     const offset = (page - 1) * limit;
 
     const query = knex
-			.select(knex.raw(['sc.id', 'sc.name', 'c.name as category_name', 'sc.created_at']))
+			.select(knex.raw(['sc.id', 'sc.name as sub_category_name', 'c.name as category_name', 'sc.created_at']))
 			.from(`${this.tableName} as sc`)
       .leftJoin('category as c', 'c.id', 'sc.category_id')
 			.whereRaw('sc.is_deleted is not true')

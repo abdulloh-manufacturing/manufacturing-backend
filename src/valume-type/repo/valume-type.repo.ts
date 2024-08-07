@@ -41,7 +41,7 @@ export class ValumeTypeRepo extends BaseRepo<any> {
     const offset = (page - 1) * limit;
 
     const query = knex
-			.select(knex.raw(['vt.id', 'vt.name', 'sc.name as sub_category_name', 'vt.created_at']))
+			.select(knex.raw(['vt.id', 'vt.name as valume_type_name', 'sc.name as sub_category_name', 'vt.created_at']))
 			.from(`${this.tableName} as vt`)
       .leftJoin('sub_category as sc', 'sc.id', 'vt.sub_category_id')
 			.whereRaw('vt.is_deleted is not true')
