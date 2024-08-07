@@ -1,6 +1,7 @@
 import * as Knex from 'knex';
 import ObjectID from 'bson-objectid';
 import { InjectKnex } from 'nestjs-knex';
+import { isEmpty } from 'lodash';
 
 Knex.QueryBuilder.extend('paginateResponse', function (knex) {
   // WRAP WITH RAW
@@ -102,18 +103,10 @@ export class BaseRepo<T> implements IBaseQuery<T> {
     return data;
   }
 
-  async insertWithTransaction(
-    trx: Knex.Transaction,
-    value: T,
-    returning = ['*'],
-    objectId?,
-  ) {
-    const [data] = await trx
-      .insert({ ...value, id: objectId ? this.generateRecordId() : undefined })
-      .into(this._tableName)
-      .returning(returning);
-    return data;
-  }
+  insertWithTransaction(trx: Knex.Transaction | Knex, value: T | T[], returning = ['*']) {
+		let queryBuilder = trx.insert(value).into(this._tableName).returning(returning);
+		return queryBuilder.then((data) => (data.length === 1 ? data[0] : data));
+	}
 
   async updateByIdWithTransaction(
     trx: Knex.Transaction,

@@ -10,6 +10,8 @@ export class OutProductService {
   async out(params) {
     const knex = this.outProductRepo.knex;
 
+    // console.log(this.outProductRepo.generateRecordId());
+
     return await knex.transaction(async (trx) => {
       const oldValue = await this.productsRepo.getByIdWithTransaction(
         trx,
@@ -20,11 +22,11 @@ export class OutProductService {
         trx,
         params.id,
         {
-          value: oldValue - 1,
+          value: oldValue.value - 1,
         },
       );
 
-      const changes = await this.outProductRepo.insertWithTransaction(trx, {
+      await this.outProductRepo.insertWithTransaction(trx, {
         id: this.outProductRepo.generateRecordId(),
         product_id: params.id,
       });
