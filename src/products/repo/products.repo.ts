@@ -10,7 +10,6 @@ export class ProductsRepo extends BaseRepo<any> {
   async create(params) {
     const data = await this.insert({
       id: this.generateRecordId(),
-      name: params.product_name,
       category_id: params.category_id,
       sub_category_id: params.sub_category_id,
       valume_type_id: params.valume_type_id,
@@ -58,23 +57,24 @@ export class ProductsRepo extends BaseRepo<any> {
 
     const query = knex
       .select([
+        knex.raw('count(p.id) over() as total'),
         'p.id',
-        knex.raw('p.name as product_name'),
         knex.raw('c.name as category_name'),
         knex.raw('sc.name as sub_category_name'),
         knex.raw('vt.name as valume_type_name'),
+        knex.raw('m.name as model_name'),
         'p.value',
         'p.color',
         'p.code',
         'p.price',
         'p.currency_type',
-        'p.model_id',
         'p.created_at'
       ])
       .from(`${this.tableName} as p`)
       .leftJoin('category as c', 'p.category_id', 'c.id')
       .leftJoin('sub_category as sc', 'sc.id', 'p.sub_category_id')
       .leftJoin('valume_types as vt', 'p.valume_type_id', 'vt.id')
+      .leftJoin('model as m', 'm.id', 'p.model_id')
       .limit(limit ? Number(limit) : 20)
       .offset(offset ? Number(offset) : 0);
 

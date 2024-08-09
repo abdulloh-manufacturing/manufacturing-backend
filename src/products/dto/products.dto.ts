@@ -12,10 +12,6 @@ import {
 export class ProductCreateDto {
   @ApiProperty()
   @IsString()
-  product_name: string;
-
-  @ApiProperty()
-  @IsString()
   category_id: string;
 
   @ApiProperty()
@@ -55,11 +51,6 @@ export class ProductUpdateDto {
   @ApiProperty()
   @IsString()
   id: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
-  product_name?: string;
 
   @ApiProperty()
   @IsString()

@@ -10,8 +10,6 @@ export class OutProductService {
   async out(params) {
     const knex = this.outProductRepo.knex;
 
-    // console.log(this.outProductRepo.generateRecordId());
-
     return await knex.transaction(async (trx) => {
       const oldValue = await this.productsRepo.getByIdWithTransaction(
         trx,
@@ -33,5 +31,11 @@ export class OutProductService {
 
       return { success: true };
     });
+  }
+
+  async list(params) {
+    const data = await this.outProductRepo.list(params);
+
+	return { total: data.length > 0 && data[0].total, data }
   }
 }

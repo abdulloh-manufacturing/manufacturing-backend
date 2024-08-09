@@ -35,23 +35,28 @@ export class ModelTypeRepo extends BaseRepo<any> {
   async list(params) {
     const knex = this.knex;
 
-    const {keyword, from_date, to_date, page, limit = 20 } = params;
+    const { keyword, from_date, to_date, page, limit = 20 } = params;
     const offset = (page - 1) * limit;
 
     const query = knex
-      .select(['m.id', knex.raw('m.name as model_name'), 'm.created_at'])
+      .select([
+        knex.raw('count(m.id) over() as total'),
+        'm.id',
+        knex.raw('m.name as model_name'),
+        'm.created_at',
+      ])
       .from(`${this.tableName} as m`)
       .whereRaw('m.is_deleted is not true')
       .limit(limit ? Number(limit) : 20)
       .offset(offset ? Number(offset) : 0);
 
-      if (from_date && to_date) {
-        query.whereBetween('m.created_at', [from_date, to_date]);
-      }
+    if (from_date && to_date) {
+      query.whereBetween('m.created_at', [from_date, to_date]);
+    }
 
-      if (keyword) {
-        query.whereRaw(`m.name ilike ?`, ['%' + keyword + '%']);
-      }
+    if (keyword) {
+      query.whereRaw(`m.name ilike ?`, ['%' + keyword + '%']);
+    }
 
     return query;
   }

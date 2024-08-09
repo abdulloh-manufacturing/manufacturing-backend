@@ -18,7 +18,9 @@ export class SubCategoryService {
   }
 
   async list(params) {
-    return this.subCategoryRepo.list(params);
+    const data = await this.subCategoryRepo.list(params);
+
+		return { total: data.length > 0 && data[0].total, data }
   }
 
   async getOne(params) {

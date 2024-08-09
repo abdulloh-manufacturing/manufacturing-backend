@@ -18,7 +18,9 @@ export class ProductsService {
   }
 
   async list(params) {
-    return this.productsRepo.list(params);
+    const data = await this.productsRepo.list(params);
+
+    return { total: data.length > 0 && data[0].total, data }
   }
 
   async getOne(params) {

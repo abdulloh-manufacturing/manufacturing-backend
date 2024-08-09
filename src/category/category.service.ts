@@ -18,7 +18,9 @@ export class CategoryService {
 	}
 
 	async list(params){
-		return this.categoryRepo.list(params)
+		const data = await this.categoryRepo.list(params);
+
+		return { total: data.length > 0 && data[0].total, data }
 	}
 
 	async getOne(params) {

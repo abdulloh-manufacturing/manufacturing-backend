@@ -62,6 +62,7 @@ export class CategoryRepo extends BaseRepo<any> {
     const query = knex
       .select(
         knex.raw([
+          knex.raw('count(c.id) over() as total'),
           'c.id',
           'c.name as category_name',
           'array_agg(to_json(sc.*)) as sub_categories',

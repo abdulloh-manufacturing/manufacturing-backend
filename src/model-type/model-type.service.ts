@@ -18,7 +18,9 @@ export class ModelTypeService {
 	}
 
 	async list(params){
-		return this.modelTypeRepo.list(params)
+		const data = await this.modelTypeRepo.list(params);
+
+		return { total: data.length > 0 && data[0].total, data }
 	}
 
     async getOne(params) {
