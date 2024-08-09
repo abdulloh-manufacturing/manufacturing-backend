@@ -18,7 +18,6 @@ export class OutProductRepo extends BaseRepo<any> {
         knex.raw('count(op.id) over() as total'),
         'op.id',
         knex.raw('p.id  as product_id'),
-        knex.raw('p.name as porduct_name'),
         knex.raw('c.name as category_name'),
         knex.raw('sc.name as sub_category_name'),
         knex.raw('vt.name as valume_type_name'),
