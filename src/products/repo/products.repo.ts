@@ -109,7 +109,6 @@ export class ProductsRepo extends BaseRepo<any> {
     const query = knex
       .select([
         'p.id',
-        knex.raw('p.name as product_name'),
         'p.category_id',
         'p.sub_category_id',
         'p.valume_type_id',
