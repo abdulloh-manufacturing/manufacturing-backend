@@ -44,7 +44,12 @@ export class OutProductRepo extends BaseRepo<any> {
     }
 
     if (keyword) {
-      query.whereRaw(`p.name ilike ?`, ['%' + keyword + '%']);
+        query.where((innerWhere) =>
+            innerWhere
+                .orWhereRaw(`c.name ilike ?`, ['%' + keyword + '%'])
+                .orWhereRaw(`sc.name ilike ?`, ['%' + keyword + '%'])
+                .orWhereRaw(`vt.name ilike ?`, ['%' + keyword + '%'])
+        );
     }
 
     return query;
