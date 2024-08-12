@@ -39,9 +39,13 @@ export class OutProductRepo extends BaseRepo<any> {
       .limit(limit ? Number(limit) : 20)
       .offset(offset ? Number(offset) : 0);
 
-    if (from_date && to_date) {
-      query.whereBetween('op.out_date', [from_date, to_date]);
-    }
+      if (from_date) {
+        query.where(`op.out_date`, '>=', knex.raw('?', from_date));
+      }
+    
+      if (to_date) {
+        query.where(`op.out_date`, '<=', knex.raw('?', `${to_date} 23:59:59`));
+      }
 
     if (keyword) {
         query.where((innerWhere) =>

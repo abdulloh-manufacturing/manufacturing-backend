@@ -1,5 +1,7 @@
+import { isEmpty } from 'lodash';
 import { BaseRepo } from '../../shared/providers/base-dao';
 import { Injectable } from '@nestjs/common';
+import dayjs from 'dayjs';
 
 @Injectable()
 export class CategoryRepo extends BaseRepo<any> {
@@ -39,17 +41,21 @@ export class CategoryRepo extends BaseRepo<any> {
     const offset = (page - 1) * limit;
 
     const query = knex
-      .select(['c.id', knex.raw('c.name as category_name'), 'c.created_at'])
+      .select([knex.raw('count(c.id) over() as total'), 'c.id', knex.raw('c.name as category_name'), 'c.created_at'])
       .from(`${this.tableName} as c`)
       .whereRaw('c.is_deleted is not true')
       .limit(limit ? Number(limit) : 20)
       .offset(offset ? Number(offset) : 0);
 
-    if (from_date && to_date) {
-      query.whereBetween('c.created_at', [from_date, to_date]);
+    if (from_date) {
+      query.where(`c.created_at`, '>=', knex.raw('?', from_date));
+    }
+  
+    if (to_date) {
+      query.where(`c.created_at`, '<=', knex.raw('?', `${to_date} 23:59:59`));
     }
 
-    if (keyword) {
+    if (!isEmpty(keyword)) {
       query.whereRaw(`c.name ilike ?`, ['%' + keyword + '%']);
     }
 
@@ -62,7 +68,6 @@ export class CategoryRepo extends BaseRepo<any> {
     const query = knex
       .select(
         knex.raw([
-          knex.raw('count(c.id) over() as total'),
           'c.id',
           'c.name as category_name',
           'array_agg(to_json(sc.*)) as sub_categories',

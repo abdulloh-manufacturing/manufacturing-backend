@@ -56,8 +56,12 @@ export class SubCategoryRepo extends BaseRepo<any> {
       .limit(limit ? Number(limit) : 20)
       .offset(offset ? Number(offset) : 0);
 
-    if (from_date && to_date) {
-      query.whereBetween('sc.created_at', [from_date, to_date]);
+    if (from_date) {
+      query.where(`sc.created_at`, '>=', knex.raw('?', from_date));
+    }
+
+    if (to_date) {
+      query.where(`sc.created_at`, '<=', knex.raw('?', `${to_date} 23:59:59`));
     }
 
     if (keyword) {

@@ -86,8 +86,12 @@ export class ProductsRepo extends BaseRepo<any> {
       query.whereRaw('p.is_deleted is true');
     }
 
-    if (from_date && to_date) {
-      query.whereBetween('p.created_at', [from_date, to_date]);
+    if (from_date) {
+      query.where(`p.created_at`, '>=', knex.raw('?', from_date));
+    }
+
+    if (to_date) {
+      query.where(`p.created_at`, '<=', knex.raw('?', `${to_date} 23:59:59`));
     }
 
     if (keyword) {

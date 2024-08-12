@@ -56,9 +56,13 @@ export class ValumeTypeRepo extends BaseRepo<any> {
       .limit(limit ? Number(limit) : 20)
       .offset(offset ? Number(offset) : 0);
 
-    if (from_date && to_date) {
-      query.whereBetween('vt.created_at', [from_date, to_date]);
-    }
+      if (from_date) {
+        query.where(`vt.created_at`, '>=', knex.raw('?', from_date));
+      }
+  
+      if (to_date) {
+        query.where(`vt.created_at`, '<=', knex.raw('?', `${to_date} 23:59:59`));
+      }
 
     if (keyword) {
       query.whereRaw(`p.name ilike ?`, ['%' + keyword + '%']);
