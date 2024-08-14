@@ -77,4 +77,6 @@ export class ModelTypeRepo extends BaseRepo<any> {
 
     return query;
   }
+
+  //coment
 }
