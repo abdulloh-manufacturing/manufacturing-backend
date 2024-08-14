@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Res } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CategoryByIdDto, CategoryCreateDto, CategoryDeleteDto, CategoryListDto, CategoryUpdateDto } from './dto/category.dto';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 
 @ApiTags('category')
 @Controller('category')
@@ -52,4 +53,20 @@ export class CategoryController {
 	async getOne(@Body() params: CategoryByIdDto) {
 		return this.categoryService.getOne(params);
 	}
+
+  @Get('excel')
+  async exportToExcel(@Res() res: Response) {
+    const {data} = await this.categoryService.list({});
+    
+    const buffer = await this.categoryService.generateExcel(data);
+
+    res.set({
+      'Content-Type':
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': 'attachment; filename=category.xlsx',
+    });
+
+    res.send(buffer);
+  }
+
 }

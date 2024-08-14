@@ -35,8 +35,8 @@ export class CategoryListDto {
   @ApiProperty()
   @IsOptional()
 	@IsString()
-	keyword?: string;
-  
+	keyword: string;
+
   @ApiProperty()
   @IsISO8601()
   @IsDefined()

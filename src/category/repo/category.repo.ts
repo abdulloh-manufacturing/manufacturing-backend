@@ -1,7 +1,6 @@
 import { isEmpty } from 'lodash';
 import { BaseRepo } from '../../shared/providers/base-dao';
 import { Injectable } from '@nestjs/common';
-import dayjs from 'dayjs';
 
 @Injectable()
 export class CategoryRepo extends BaseRepo<any> {
