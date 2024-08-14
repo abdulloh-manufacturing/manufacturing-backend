@@ -78,7 +78,7 @@ export class CategoryRepo extends BaseRepo<any> {
       .whereRaw('c.is_deleted is not true')
       .groupBy('c.id')
       .first();
-
+      
     return query;
   }
 }
