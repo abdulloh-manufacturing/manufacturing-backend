@@ -53,6 +53,7 @@ export class SubCategoryRepo extends BaseRepo<any> {
       .from(`${this.tableName} as sc`)
       .leftJoin('category as c', 'c.id', 'sc.category_id')
       .whereRaw('sc.is_deleted is not true')
+      .orderBy('sc.created_at', 'desc')
       .limit(limit ? Number(limit) : 20)
       .offset(offset ? Number(offset) : 0);
 

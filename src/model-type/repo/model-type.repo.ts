@@ -47,6 +47,7 @@ export class ModelTypeRepo extends BaseRepo<any> {
       ])
       .from(`${this.tableName} as m`)
       .whereRaw('m.is_deleted is not true')
+      .orderBy('m.created_at', 'desc')
       .limit(limit ? Number(limit) : 20)
       .offset(offset ? Number(offset) : 0);
 

@@ -36,6 +36,7 @@ export class OutProductRepo extends BaseRepo<any> {
       .leftJoin('sub_category as sc', 'sc.id', 'p.sub_category_id')
       .leftJoin('valume_types as vt', 'p.valume_type_id', 'vt.id')
       .leftJoin('model as m', 'm.id', 'p.model_id')
+      .orderBy('op.out_date', 'desc')
       .limit(limit ? Number(limit) : 20)
       .offset(offset ? Number(offset) : 0);
 

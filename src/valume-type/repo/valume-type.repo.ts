@@ -53,6 +53,7 @@ export class ValumeTypeRepo extends BaseRepo<any> {
       .from(`${this.tableName} as vt`)
       .leftJoin('sub_category as sc', 'sc.id', 'vt.sub_category_id')
       .whereRaw('vt.is_deleted is not true')
+      .orderBy('vt.created_at', 'desc')
       .limit(limit ? Number(limit) : 20)
       .offset(offset ? Number(offset) : 0);
 

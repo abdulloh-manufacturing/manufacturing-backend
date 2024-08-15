@@ -43,6 +43,7 @@ export class CategoryRepo extends BaseRepo<any> {
       .select([knex.raw('count(c.id) over() as total'), 'c.id', knex.raw('c.name as category_name'), 'c.created_at'])
       .from(`${this.tableName} as c`)
       .whereRaw('c.is_deleted is not true')
+      .orderBy('c.created_at', 'desc')
       .limit(limit ? Number(limit) : 20)
       .offset(offset ? Number(offset) : 0);
 
