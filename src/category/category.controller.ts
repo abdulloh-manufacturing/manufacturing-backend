@@ -1,8 +1,9 @@
 import { Body, Controller, Get, Inject, Post, Res } from '@nestjs/common';
 import { CategoryService } from './category.service';
-import { CategoryByIdDto, CategoryCreateDto, CategoryDeleteDto, CategoryListDto, CategoryUpdateDto } from './dto/category.dto';
+import { CategoryCreateDto, CategoryUpdateDto } from './dto/category.dto';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
+import { ByIdDto, DeleteDto, ListDto } from '@shared/dtos/index.dto';
 
 @ApiTags('category')
 @Controller('category')
@@ -28,37 +29,36 @@ export class CategoryController {
   }
 
   @ApiBody({
-    type: CategoryDeleteDto,
+    type: DeleteDto,
     description: 'Category delete',
   })
   @Post('delete')
-  async delete(@Body() params:CategoryDeleteDto) {
+  async delete(@Body() params:DeleteDto) {
     return this.categoryService.delete(params);
   }
 
   @ApiBody({
-    type: CategoryListDto,
+    type: ListDto,
     description: 'list'
   })
   @Post('list')
-  async list(@Body() params: CategoryListDto){
+  async list(@Body() params: ListDto){
     return this.categoryService.list(params)
   }
 
   @ApiBody({
-		type: CategoryByIdDto,
+		type: ByIdDto,
 		description: 'get one',
 	})
 	@Post('get-one')
-	async getOne(@Body() params: CategoryByIdDto) {
+	async getOne(@Body() params: ByIdDto) {
 		return this.categoryService.getOne(params);
 	}
 
-  @Get('excel')
-  async exportToExcel(@Res() res: Response) {
-    const {data} = await this.categoryService.list({});
+  @Post('excel')
+  async exportToExcel(@Body() params: ListDto, @Res() res: Response) {
     
-    const buffer = await this.categoryService.generateExcel(data);
+    const buffer = await this.categoryService.generateExcel(params);
 
     res.set({
       'Content-Type':

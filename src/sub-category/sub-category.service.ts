@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { SubCategoryRepo } from './repo/sub-category.repo';
+import { render } from '@shared/utils';
 
 @Injectable()
 export class SubCategoryService {
@@ -26,4 +27,16 @@ export class SubCategoryService {
   async getOne(params) {
     return this.subCategoryRepo.getOne(params);
   }
+
+  async generateExcel(params){
+    const data = await this.subCategoryRepo.list(params);
+
+    const columns = [
+        { header: 'Kategoriya', key: 'category_name', width: 30 },
+        { header: 'Subkategoriya nomi', key: 'sub_category_name', width: 30},
+        { header: 'Yaratilgan vaqti', key: 'created_at', width: 30},
+      ];
+
+    return render(data, columns, 'sub-category')
+  }	
 }

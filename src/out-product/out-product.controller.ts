@@ -1,7 +1,9 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Post, Res } from '@nestjs/common';
 import { OutProductService } from './out-product.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { OutProductDto, OutProductListDto } from './dto/out-product.dto';
+import { OutProductDto } from './dto/out-product.dto';
+import { Response } from 'express';
+import { ListDto } from '@shared/dtos/index.dto';
 
 @ApiTags('out-product')
 @Controller('out-product')
@@ -18,11 +20,25 @@ export class OutProductController {
   }
 
   @ApiBody({
-    type: OutProductListDto,
+    type: ListDto,
     description: 'list',
   })
   @Post('list')
-  async list(@Body() params){
+  async list(@Body() params: ListDto){
     return this.outProductService.list(params)
+  }
+
+  @Post('excel')
+  async exportToExcel(@Body() params: ListDto, @Res() res: Response) {
+    
+    const buffer = await this.outProductService.generateExcel(params);
+
+    res.set({
+      'Content-Type':
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': 'attachment; filename=category.xlsx',
+    });
+
+    res.send(buffer);
   }
 }

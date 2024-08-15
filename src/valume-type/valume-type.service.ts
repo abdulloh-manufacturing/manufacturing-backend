@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ValumeTypeRepo } from './repo/valume-type.repo';
+import { render } from '@shared/utils';
 
 @Injectable()
 export class ValumeTypeService {
@@ -25,5 +26,17 @@ export class ValumeTypeService {
 
   async getOne(params) {
     return this.valumeTypeRepo.getOne(params);
+  }
+
+  async generateExcel(params) {
+    const data = await this.valumeTypeRepo.list(params);
+
+    const columns = [
+      { header: 'Subkategoriya nomi', key: 'sub_category_name', width: 30 },
+      { header: "O'lchov birligi nomi", key: 'valume_type_name', width: 30 },
+      { header: 'Yaratilgan vaqti', key: 'created_at', width: 30 },
+    ];
+
+    return render(data, columns, 'valume-type');
   }
 }

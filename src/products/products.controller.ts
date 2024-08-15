@@ -1,13 +1,9 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Res } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import {
-    ProductByIdDto,
-  ProductCreateDto,
-  ProductDeleteDto,
-  ProductListDto,
-  ProductUpdateDto,
-} from './dto/products.dto';
+import { ProductCreateDto, ProductUpdateDto } from './dto/products.dto';
+import { Response } from 'express';
+import { ByIdDto, DeleteDto, ListDto } from '@shared/dtos/index.dto';
 
 @ApiTags('products')
 @Controller('products')
@@ -31,27 +27,40 @@ export class ProductsController {
   }
 
   @ApiBody({
-    type: ProductDeleteDto,
+    type: DeleteDto,
   })
   @Post('delete')
-  async delete(@Body() params: ProductDeleteDto) {
+  async delete(@Body() params: DeleteDto) {
     return this.productsService.delete(params);
   }
 
   @ApiBody({
-    type: ProductListDto,
+    type: ListDto,
   })
   @Post('list')
-  async list(@Body() params: ProductListDto) {
+  async list(@Body() params: ListDto) {
     return this.productsService.list(params);
   }
 
   @ApiBody({
-    type: ProductByIdDto,
+    type: ByIdDto,
     description: 'get one',
   })
   @Post('get-one')
-  async getOne(@Body() params: ProductByIdDto) {
+  async getOne(@Body() params: ByIdDto) {
     return this.productsService.getOne(params);
+  }
+
+  @Post('excel')
+  async exportToExcel(@Body() params: ListDto, @Res() res: Response) {
+    const buffer = await this.productsService.generateExcel(params);
+
+    res.set({
+      'Content-Type':
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': 'attachment; filename=category.xlsx',
+    });
+
+    res.send(buffer);
   }
 }

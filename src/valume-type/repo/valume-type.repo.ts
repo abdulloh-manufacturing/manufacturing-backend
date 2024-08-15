@@ -81,6 +81,7 @@ export class ValumeTypeRepo extends BaseRepo<any> {
           'vt.name as valume_type_name',
           'vt.sub_category_id',
           'vt.created_at',
+          'c.id'
         ]),
       ])
       .from(`${this.tableName} as vt`)

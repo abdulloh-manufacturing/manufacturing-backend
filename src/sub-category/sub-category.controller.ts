@@ -1,13 +1,12 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Post, Res } from '@nestjs/common';
 import { SubCategoryService } from './sub-category.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import {
-  SubCategoryByIdDto,
   SubCategoryCreateDto,
-  SubCategoryDeleteDto,
-  SubCategoryListDto,
   SubCategoryUpdateDto,
 } from './dto/sub-category.dto';
+import { Response } from 'express';
+import { ByIdDto, DeleteDto, ListDto } from '@shared/dtos/index.dto';
 
 @Controller('sub-category')
 @ApiTags('sub-category')
@@ -33,29 +32,42 @@ export class SubCategoryController {
   }
 
   @ApiBody({
-    type: SubCategoryDeleteDto,
+    type: DeleteDto,
     description: 'sub-category delete',
   })
   @Post('delete')
-  async delete(@Body() params: SubCategoryDeleteDto) {
+  async delete(@Body() params: DeleteDto) {
     return this.subCategoryService.delete(params);
   }
 
   @ApiBody({
-    type: SubCategoryListDto,
+    type: ListDto,
     description: 'list',
   })
   @Post('list')
-  async list(@Body() params: SubCategoryListDto) {
+  async list(@Body() params: ListDto) {
     return this.subCategoryService.list(params);
   }
 
   @ApiBody({
-    type: SubCategoryByIdDto,
+    type: ByIdDto,
     description: 'get one',
   })
   @Post('get-one')
-  async getOne(@Body() params: SubCategoryByIdDto) {
+  async getOne(@Body() params: ByIdDto) {
     return this.subCategoryService.getOne(params);
+  }
+
+  @Post('excel')
+  async exportToExcel(@Body() params: ListDto, @Res() res: Response) {
+    const buffer = await this.subCategoryService.generateExcel(params);
+
+    res.set({
+      'Content-Type':
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': 'attachment; filename=category.xlsx',
+    });
+
+    res.send(buffer);
   }
 }
