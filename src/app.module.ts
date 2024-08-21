@@ -10,6 +10,7 @@ import { ValumeTypeModule } from './valume-type/valume-type.module';
 import { ProductsModule } from './products/products.module';
 import { ModelTypeModule } from './model-type/model-type.module';
 import { OutProductModule } from './out-product/out-product.module';
+import { ProductHistoryModule } from './product-history/product-history.module';
 
 
 @Module({
@@ -23,7 +24,8 @@ import { OutProductModule } from './out-product/out-product.module';
     ValumeTypeModule,
     ProductsModule,
     ModelTypeModule,
-    OutProductModule
+    OutProductModule,
+    ProductHistoryModule
   ],
   controllers: [AppController],
   providers: [AppService]

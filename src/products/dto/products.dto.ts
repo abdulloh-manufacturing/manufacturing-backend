@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsDefined, IsISO8601, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class ProductCreateDto {
   @ApiProperty()
@@ -88,4 +88,40 @@ export class ProductUpdateDto {
   @IsString()
   @IsOptional()
   model_id?: string;
+}
+
+export class ProductListDto {
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  keyword: string;
+
+  @ApiProperty()
+  @IsISO8601()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  from_date: Date | string;
+
+  @ApiProperty()
+  @IsISO8601()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsOptional()
+  to_date: Date | string;
+
+  @ApiProperty()
+  @IsBoolean()
+  @IsOptional()
+  is_deleted: boolean;
+
+  @ApiProperty({ example: 1 })
+  @IsNumber()
+  @IsOptional()
+  page?: number;
+
+  @ApiProperty({ example: 20 })
+  @IsNumber()
+  @IsOptional()
+  limit?: number;
 }

@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Inject, Post, Res } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { ProductCreateDto, ProductUpdateDto } from './dto/products.dto';
+import { ProductCreateDto, ProductListDto, ProductUpdateDto } from './dto/products.dto';
 import { Response } from 'express';
-import { ByIdDto, DeleteDto, ListDto } from '@shared/dtos/index.dto';
+import { ByIdDto, DeleteDto } from '@shared/dtos/index.dto';
 
 @ApiTags('products')
 @Controller('products')
@@ -35,10 +35,10 @@ export class ProductsController {
   }
 
   @ApiBody({
-    type: ListDto,
+    type: ProductListDto,
   })
   @Post('list')
-  async list(@Body() params: ListDto) {
+  async list(@Body() params: ProductListDto) {
     return this.productsService.list(params);
   }
 
@@ -52,7 +52,7 @@ export class ProductsController {
   }
 
   @Post('excel')
-  async exportToExcel(@Body() params: ListDto, @Res() res: Response) {
+  async exportToExcel(@Body() params: ProductListDto, @Res() res: Response) {
     const buffer = await this.productsService.generateExcel(params);
 
     res.set({
