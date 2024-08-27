@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import { BaseRepo } from '../../shared/providers/base-dao';
 import { Injectable } from '@nestjs/common';
 
@@ -5,22 +6,6 @@ import { Injectable } from '@nestjs/common';
 export class ProductsRepo extends BaseRepo<any> {
   constructor() {
     super(`public.products`);
-  }
-
-  async create(params) {
-    const data = await this.insert({
-      id: this.generateRecordId(),
-      category_id: params.category_id,
-      sub_category_id: params.sub_category_id,
-      valume_type_id: params.valume_type_id,
-      value: params.value,
-      color: params.color,
-      code: params.code,
-      price: params.price,
-      currency_type: params.currency_type,
-    });
-
-    return data;
   }
 
   async updateOne(params) {

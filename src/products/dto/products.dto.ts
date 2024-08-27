@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsDefined, IsISO8601, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDefined,
+  IsISO8601,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class ProductCreateDto {
   @ApiProperty()
@@ -33,6 +41,10 @@ export class ProductCreateDto {
   @ApiProperty()
   @IsString()
   currency_type: string;
+
+  @ApiProperty()
+  @IsNumber()
+  unique_code: number;
 }
 
 export class ProductUpdateDto {

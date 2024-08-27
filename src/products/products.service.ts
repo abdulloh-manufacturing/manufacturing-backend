@@ -1,13 +1,47 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ProductsRepo } from './repo/products.repo';
 import { render } from '@shared/utils';
+import { isEmpty } from 'lodash';
+import { ProductHistoryService } from 'src/product-history/product-history.service';
 
 @Injectable()
 export class ProductsService {
   @Inject() private readonly productsRepo: ProductsRepo;
+  @Inject() private readonly productHistoryService: ProductHistoryService;
 
   async create(params) {
-    return this.productsRepo.create(params);
+    
+    await this.productHistoryService.create(params);
+
+    return await this.productsRepo.knex.transaction(async (trx) => {
+      if (!isEmpty(params.unique_code)) {
+        const product = await this.productsRepo.getByIdWithTransaction(trx, params.unique_code);
+
+        const data = await this.productsRepo.updateByIdWithTransaction(
+          trx,
+          params.unique_code,
+          {
+            value: Number(params.unique_code) + Number(product.unique_code),
+          },
+        );
+
+        return data;
+      }else{
+        const data = await this.productsRepo.insertWithTransaction(trx, {
+          id: this.productsRepo.generateRecordId(),
+          category_id: params.category_id,
+          sub_category_id: params.sub_category_id,
+          valume_type_id: params.valume_type_id,
+          value: params.value,
+          color: params.color,
+          code: params.code,
+          price: params.price,
+          currency_type: params.currency_type,
+        });
+  
+        return data;
+      }
+    });
   }
 
   async update(params) {
@@ -28,21 +62,21 @@ export class ProductsService {
     return this.productsRepo.getOne(params);
   }
 
-  async generateExcel(params){
+  async generateExcel(params) {
     const data = await this.productsRepo.list(params);
 
     const columns = [
-        { header: 'Kategoriya', key: 'category_name', width: 30 },
-        { header: 'Subkategoriya', key: 'sub_category_name', width: 30},
-        { header: 'Rangi', key: 'color', width: 30},
-        { header: 'Kodi', key: 'code', width: 30},
-        { header: 'Narxi', key: 'price', width: 30},
-        { header: 'Valyuta turi', key: 'currency_type', width: 30},
-        { header: 'Soni', key: 'value', width: 30},
-        { header: 'Model', key: 'model_name', width: 30},
-        { header: 'Kirgan vaqti', key: 'created_at', width: 30},
-      ];
+      { header: 'Kategoriya', key: 'category_name', width: 30 },
+      { header: 'Subkategoriya', key: 'sub_category_name', width: 30 },
+      { header: 'Rangi', key: 'color', width: 30 },
+      { header: 'Kodi', key: 'code', width: 30 },
+      { header: 'Narxi', key: 'price', width: 30 },
+      { header: 'Valyuta turi', key: 'currency_type', width: 30 },
+      { header: 'Soni', key: 'value', width: 30 },
+      { header: 'Model', key: 'model_name', width: 30 },
+      { header: 'Kirgan vaqti', key: 'created_at', width: 30 },
+    ];
 
-    return render(data, columns, 'products')
-  }	
+    return render(data, columns, 'products');
+  }
 }

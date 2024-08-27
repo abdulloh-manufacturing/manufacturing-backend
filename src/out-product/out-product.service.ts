@@ -21,7 +21,7 @@ export class OutProductService {
         trx,
         params.id,
         {
-          value: oldValue.value - 1,
+          value: Number(oldValue.value) - params.out_value,
         },
       );
 

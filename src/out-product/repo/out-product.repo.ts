@@ -28,6 +28,7 @@ export class OutProductRepo extends BaseRepo<any> {
         'p.code',
         'p.price',
         'p.currency_type',
+        'op.out_value'
       ])
       .from(`${this.tableName} as op`)
       .leftJoin('products as p', 'p.id', 'op.product_id')
