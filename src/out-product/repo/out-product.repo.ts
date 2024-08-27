@@ -28,14 +28,12 @@ export class OutProductRepo extends BaseRepo<any> {
         'p.code',
         'p.price',
         'p.currency_type',
-        knex.raw('m.name as model_name')
       ])
       .from(`${this.tableName} as op`)
       .leftJoin('products as p', 'p.id', 'op.product_id')
       .leftJoin('category as c', 'p.category_id', 'c.id')
       .leftJoin('sub_category as sc', 'sc.id', 'p.sub_category_id')
       .leftJoin('valume_types as vt', 'p.valume_type_id', 'vt.id')
-      .leftJoin('model as m', 'm.id', 'p.model_id')
       .orderBy('op.out_date', 'desc')
       .limit(limit ? Number(limit) : 20)
       .offset(offset ? Number(offset) : 0);

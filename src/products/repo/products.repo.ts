@@ -18,7 +18,6 @@ export class ProductsRepo extends BaseRepo<any> {
       code: params.code,
       price: params.price,
       currency_type: params.currency_type,
-      model_id: params.model_id,
     });
 
     return data;
@@ -35,7 +34,6 @@ export class ProductsRepo extends BaseRepo<any> {
       code: params.code,
       price: params.price,
       currency_type: params.currency_type,
-      model_id: params.model_id,
     });
 
     return data;
@@ -62,7 +60,6 @@ export class ProductsRepo extends BaseRepo<any> {
         knex.raw('c.name as category_name'),
         knex.raw('sc.name as sub_category_name'),
         knex.raw('vt.name as valume_type_name'),
-        knex.raw('m.name as model_name'),
         'p.value',
         'p.color',
         'p.code',
@@ -74,7 +71,6 @@ export class ProductsRepo extends BaseRepo<any> {
       .leftJoin('category as c', 'p.category_id', 'c.id')
       .leftJoin('sub_category as sc', 'sc.id', 'p.sub_category_id')
       .leftJoin('valume_types as vt', 'p.valume_type_id', 'vt.id')
-      .leftJoin('model as m', 'm.id', 'p.model_id')
       .orderBy('p.created_at', 'desc')
       .limit(limit ? Number(limit) : 20)
       .offset(offset ? Number(offset) : 0);
@@ -122,7 +118,6 @@ export class ProductsRepo extends BaseRepo<any> {
         'p.code',
         'p.price',
         'p.currency_type',
-        'p.model_id',
       ])
       .from(`${this.tableName} as p`)
       .where('p.id', params.id)
