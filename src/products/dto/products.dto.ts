@@ -33,10 +33,6 @@ export class ProductCreateDto {
   @ApiProperty()
   @IsString()
   currency_type: string;
-
-  @ApiProperty()
-  @IsString()
-  model_id: string;
 }
 
 export class ProductUpdateDto {
@@ -83,11 +79,6 @@ export class ProductUpdateDto {
   @IsString()
   @IsOptional()
   currency_type?: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
-  model_id?: string;
 }
 
 export class ProductListDto {

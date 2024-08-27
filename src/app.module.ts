@@ -8,7 +8,6 @@ import { CategoryModule } from './category/category.module';
 import { SubCategoryModule } from './sub-category/sub-category.module';
 import { ValumeTypeModule } from './valume-type/valume-type.module';
 import { ProductsModule } from './products/products.module';
-import { ModelTypeModule } from './model-type/model-type.module';
 import { OutProductModule } from './out-product/out-product.module';
 import { ProductHistoryModule } from './product-history/product-history.module';
 
@@ -23,7 +22,6 @@ import { ProductHistoryModule } from './product-history/product-history.module';
     SubCategoryModule,
     ValumeTypeModule,
     ProductsModule,
-    ModelTypeModule,
     OutProductModule,
     ProductHistoryModule
   ],
