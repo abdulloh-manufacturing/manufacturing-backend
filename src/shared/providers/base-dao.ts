@@ -122,12 +122,34 @@ export class BaseRepo<T> implements IBaseQuery<T> {
     return data;
   }
 
+  async updateByUniqueCodeWithTransaction(
+    trx: Knex.Transaction,
+    unique_code: string,
+    value: T,
+    returning = ['*'],
+  ) {
+    const [data] = await trx
+      .update(value)
+      .from(this._tableName)
+      .where('unique_code', unique_code)
+      .returning(returning);
+    return data;
+  }
+
   getByIdWithTransaction(
     trx: Knex.Transaction,
     id: string,
     columns = ['*'],
   ): Promise<T> {
     return trx.select(columns).from(this._tableName).where('id', id).first();
+  }
+
+  getByUniqueCodeWithTransaction(
+    trx: Knex.Transaction,
+    unique_code: string,
+    columns = ['*'],
+  ): Promise<T> {
+    return trx.select(columns).from(this._tableName).where('unique_code', unique_code).first();
   }
 
   async delete(whereMap, returning = ['*'], trx?) {
