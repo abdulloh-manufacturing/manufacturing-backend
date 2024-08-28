@@ -12,7 +12,7 @@ export class OutProductService {
     const knex = this.outProductRepo.knex;
 
     return await knex.transaction(async (trx) => {
-      const oldValue = await this.productsRepo.getByIdWithTransaction(
+      const {value} = await this.productsRepo.getByIdWithTransaction(
         trx,
         params.id,
       );
@@ -21,7 +21,7 @@ export class OutProductService {
         trx,
         params.id,
         {
-          value: Number(oldValue.value) - params.out_value,
+          value: Number(value) - params.out_value,
         },
       );
 
