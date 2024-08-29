@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Inject, Post, Res } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { ProductCreateDto, ProductListDto, ProductUpdateDto } from './dto/products.dto';
+import { ByUniqueCodeDto, ProductCreateDto, ProductListDto, ProductUpdateDto } from './dto/products.dto';
 import { Response } from 'express';
 import { ByIdDto, DeleteDto } from '@shared/dtos/index.dto';
 
@@ -49,6 +49,15 @@ export class ProductsController {
   @Post('get-one')
   async getOne(@Body() params: ByIdDto) {
     return this.productsService.getOne(params);
+  }
+
+  @ApiBody({
+    type: ByUniqueCodeDto,
+    description: 'get unique code',
+  })
+  @Post('get-by-unique-code')
+  async getByUniqueCode(@Body() params: ByUniqueCodeDto) {
+    return this.productsService.getByUniqueCode(params);
   }
 
   @Post('excel')

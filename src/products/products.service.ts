@@ -62,6 +62,10 @@ export class ProductsService {
     return this.productsRepo.getOne(params);
   }
 
+  async getByUniqueCode(params){
+    return this.productsRepo.getByUniqueCode(params);
+  }
+
   async generateExcel(params) {
     const data = await this.productsRepo.list(params);
 

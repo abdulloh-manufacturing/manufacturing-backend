@@ -113,4 +113,30 @@ export class ProductsRepo extends BaseRepo<any> {
 
     return query;
   }
+
+  async getByUniqueCode(params) {
+    const knex = this.knex;
+
+    const query = knex
+      .select([
+        'p.id',
+        'p.category_id',
+        'p.sub_category_id',
+        'p.valume_type_id',
+        'p.value',
+        'p.created_at',
+        'p.color',
+        'p.code',
+        'p.price',
+        'p.currency_type',
+        'p.unique_code'
+      ])
+      .from(`${this.tableName} as p`)
+      .where('p.unique_code', params.unique_code)
+      .whereRaw('p.is_deleted is not true')
+      .first();
+
+    return query;
+  }
+  
 }

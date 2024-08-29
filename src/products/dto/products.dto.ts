@@ -129,4 +129,11 @@ export class ProductListDto {
   limit?: number;
 }
 
+export class ByUniqueCodeDto {
+  @ApiProperty()
+  @IsString()
+  @IsDefined()
+  unique_code: string;
+}
+
 //some text for test
