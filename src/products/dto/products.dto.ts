@@ -131,9 +131,9 @@ export class ProductListDto {
 
 export class ByUniqueCodeDto {
   @ApiProperty()
-  @IsString()
+  @IsNumber()
   @IsDefined()
-  unique_code: string;
+  unique_code: number;
 }
 
 //some text for test
