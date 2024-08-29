@@ -50,7 +50,8 @@ export class ProductsRepo extends BaseRepo<any> {
         'p.code',
         'p.price',
         'p.currency_type',
-        'p.created_at'
+        'p.created_at',
+        'p.unique_code'
       ])
       .from(`${this.tableName} as p`)
       .leftJoin('category as c', 'p.category_id', 'c.id')
@@ -103,6 +104,7 @@ export class ProductsRepo extends BaseRepo<any> {
         'p.code',
         'p.price',
         'p.currency_type',
+        'p.unique_code'
       ])
       .from(`${this.tableName} as p`)
       .where('p.id', params.id)

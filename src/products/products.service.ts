@@ -75,6 +75,7 @@ export class ProductsService {
       { header: 'Soni', key: 'value', width: 30 },
       { header: 'Model', key: 'model_name', width: 30 },
       { header: 'Kirgan vaqti', key: 'created_at', width: 30 },
+      { header: 'Unique Code', key: 'unique_code', width: 30 },
     ];
 
     return render(data, columns, 'products');
