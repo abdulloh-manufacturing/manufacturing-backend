@@ -43,8 +43,8 @@ export class ProductCreateDto {
   currency_type: string;
 
   @ApiProperty()
-  @IsNumber()
-  unique_code: number;
+  @IsString()
+  unique_code: string;
 }
 
 export class ProductUpdateDto {
@@ -131,9 +131,9 @@ export class ProductListDto {
 
 export class ByUniqueCodeDto {
   @ApiProperty()
-  @IsNumber()
+  @IsString()
   @IsDefined()
-  unique_code: number;
+  unique_code: string;
 }
 
 //some text for test
