@@ -10,13 +10,16 @@ export class ProductsService {
   @Inject() private readonly productHistoryService: ProductHistoryService;
 
   async create(params) {
-    
     await this.productHistoryService.create(params);
 
     return await this.productsRepo.knex.transaction(async (trx) => {
-      if (!isEmpty(params.unique_code)) {
-        const product = await this.productsRepo.getByUniqueCodeWithTransaction(trx, params.unique_code);
+      const product = await this.productsRepo.getByUniqueCodeWithTransaction(
+        trx,
+        params.unique_code,
+      );
 
+      if (!isEmpty(product)) {
+        console.log(Number(params.value) + Number(product.value));
         const data = await this.productsRepo.updateByUniqueCodeWithTransaction(
           trx,
           params.unique_code,
@@ -26,7 +29,7 @@ export class ProductsService {
         );
 
         return data;
-      }else{
+      } else {
         const data = await this.productsRepo.insertWithTransaction(trx, {
           id: this.productsRepo.generateRecordId(),
           category_id: params.category_id,
@@ -37,9 +40,9 @@ export class ProductsService {
           code: params.code,
           price: params.price,
           currency_type: params.currency_type,
-          unique_code: params.unique_code
+          unique_code: params.unique_code,
         });
-  
+
         return data;
       }
     });
@@ -63,7 +66,7 @@ export class ProductsService {
     return this.productsRepo.getOne(params);
   }
 
-  async getByUniqueCode(params){
+  async getByUniqueCode(params) {
     return this.productsRepo.getByUniqueCode(params);
   }
 

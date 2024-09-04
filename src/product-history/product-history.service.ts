@@ -16,7 +16,6 @@ export class ProductHistoryService {
         code: params.code,
         price: params.price,
         currency_type: params.currency_type,
-        unique_code: params.unique_code
       });
 
       return data;
