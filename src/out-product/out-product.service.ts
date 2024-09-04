@@ -12,12 +12,12 @@ export class OutProductService {
     const knex = this.outProductRepo.knex;
 
     return await knex.transaction(async (trx) => {
-      const {value} = await this.productsRepo.getByUniqueCodeWithTransaction(
+      const {value} = await this.productsRepo.getByIdWithTransaction(
         trx,
         params.id,
       );
 
-      const data = await this.productsRepo.updateByUniqueCodeWithTransaction(
+      const data = await this.productsRepo.updateByIdWithTransaction(
         trx,
         params.id,
         {
