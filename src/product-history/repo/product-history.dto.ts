@@ -15,7 +15,6 @@ export class ProductHistoryRepo extends BaseRepo<any> {
       keyword,
       from_date,
       to_date,
-      is_deleted,
       page,
       limit = 20,
     } = params;
@@ -39,17 +38,10 @@ export class ProductHistoryRepo extends BaseRepo<any> {
       .leftJoin('category as c', 'ph.category_id', 'c.id')
       .leftJoin('sub_category as sc', 'sc.id', 'ph.sub_category_id')
       .leftJoin('valume_types as vt', 'ph.valume_type_id', 'vt.id')
+      .whereRaw('ph.is_deleted is not true')
       .orderBy('ph.created_at', 'desc')
       .limit(limit ? Number(limit) : 20)
       .offset(offset ? Number(offset) : 0);
-
-    if (is_deleted === false) {
-      query.whereRaw('ph.is_deleted is not true');
-    }
-
-    if (is_deleted === true) {
-      query.whereRaw('ph.is_deleted is true');
-    }
 
     if (from_date) {
       query.where(`ph.created_at`, '>=', knex.raw('?', from_date));
