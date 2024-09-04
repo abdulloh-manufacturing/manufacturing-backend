@@ -33,6 +33,7 @@ export class ProductHistoryRepo extends BaseRepo<any> {
         'ph.price',
         'ph.currency_type',
         'ph.created_at',
+        'ph.unique_code'
       ])
       .from(`${this.tableName} as ph`)
       .leftJoin('category as c', 'ph.category_id', 'c.id')

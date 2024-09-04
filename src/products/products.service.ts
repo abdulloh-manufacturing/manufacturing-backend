@@ -25,6 +25,7 @@ export class ProductsService {
           params.unique_code,
           {
             value: Number(params.value) + Number(product.value),
+            price: Number(params.price) + Number(product.price)
           },
         );
 
