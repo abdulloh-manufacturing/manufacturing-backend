@@ -15,9 +15,9 @@ export class ProductsService {
 
     return await this.productsRepo.knex.transaction(async (trx) => {
       if (!isEmpty(params.unique_code)) {
-        const product = await this.productsRepo.getByIdWithTransaction(trx, params.unique_code);
+        const product = await this.productsRepo.getByUniqueCodeWithTransaction(trx, params.unique_code);
 
-        const data = await this.productsRepo.updateByIdWithTransaction(
+        const data = await this.productsRepo.updateByUniqueCodeWithTransaction(
           trx,
           params.unique_code,
           {
@@ -37,6 +37,7 @@ export class ProductsService {
           code: params.code,
           price: params.price,
           currency_type: params.currency_type,
+          unique_code: params.unique_code
         });
   
         return data;
