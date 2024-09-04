@@ -28,12 +28,12 @@ export class ProductHistoryRepo extends BaseRepo<any> {
         knex.raw('c.name as category_name'),
         knex.raw('sc.name as sub_category_name'),
         knex.raw('vt.name as valume_type_name'),
-        'p.value',
-        'p.color',
-        'p.code',
-        'p.price',
-        'p.currency_type',
-        'p.created_at',
+        'ph.value',
+        'ph.color',
+        'ph.code',
+        'ph.price',
+        'ph.currency_type',
+        'ph.created_at',
       ])
       .from(`${this.tableName} as ph`)
       .leftJoin('category as c', 'ph.category_id', 'c.id')
