@@ -21,7 +21,7 @@ export class ProductsService {
           trx,
           params.unique_code,
           {
-            value: Number(params.unique_code) + Number(product.unique_code),
+            value: Number(params.value) + Number(product.value),
           },
         );
 
