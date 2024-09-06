@@ -63,4 +63,28 @@ export class ProductHistoryRepo extends BaseRepo<any> {
 
     return query;
   }
+
+  async updateOne(params) {
+    const data = await this.updateById(params.id, {
+      category_id: params.category_id,
+      sub_category_id: params.sub_category_id,
+      valume_type_id: params.valume_type_id,
+      value: params.value,
+      color: params.color,
+      code: params.code,
+      price: params.price,
+      currency_type: params.currency_type,
+      unique_code: params.unique_code
+    });
+
+    return data;
+  }
+
+  async deleteOne(params) {
+    const data = await this.updateById(params.id, {
+      is_deleted: true,
+    });
+
+    return { success: true };
+  }
 }

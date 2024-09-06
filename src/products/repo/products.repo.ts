@@ -10,7 +10,6 @@ export class ProductsRepo extends BaseRepo<any> {
 
   async updateOne(params) {
     const data = await this.updateById(params.id, {
-      name: params.product_name,
       category_id: params.category_id,
       sub_category_id: params.sub_category_id,
       valume_type_id: params.valume_type_id,
@@ -19,6 +18,7 @@ export class ProductsRepo extends BaseRepo<any> {
       code: params.code,
       price: params.price,
       currency_type: params.currency_type,
+      unique_code: params.unique_code
     });
 
     return data;

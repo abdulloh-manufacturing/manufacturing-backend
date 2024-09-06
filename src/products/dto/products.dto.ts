@@ -91,6 +91,11 @@ export class ProductUpdateDto {
   @IsString()
   @IsOptional()
   currency_type?: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  unique_code: string;
 }
 
 export class ProductListDto {

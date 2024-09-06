@@ -1,7 +1,8 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { ProductHistoryService } from './product-history.service';
-import { ListDto } from '@shared/dtos/index.dto';
+import { DeleteDto, ListDto } from '@shared/dtos/index.dto';
+import { ProductUpdateDto } from 'src/products/dto/products.dto';
 
 @ApiTags('product-history')
 @Controller('product-history')
@@ -15,5 +16,21 @@ export class ProductHistoryController {
   @Post('list')
   async list(@Body() params: ListDto){
     return this.productHistoryService.list(params)
+  }
+
+  @ApiBody({
+    type: ProductUpdateDto,
+  })
+  @Post('update')
+  async update(@Body() params: ProductUpdateDto) {
+    return this.productHistoryService.update(params);
+  }
+
+  @ApiBody({
+    type: DeleteDto,
+  })
+  @Post('delete')
+  async delete(@Body() params: DeleteDto) {
+    return this.productHistoryService.delete(params);
   }
 }

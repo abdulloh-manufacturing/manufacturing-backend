@@ -27,4 +27,12 @@ export class ProductHistoryService {
 
     return { total: data.length > 0 && data[0].total, data };
   }
+
+  async update(params) {
+    return this.productHistoryRepo.updateOne(params);
+  }
+
+  async delete(params) {
+    return this.productHistoryRepo.deleteOne(params);
+  }
 }
