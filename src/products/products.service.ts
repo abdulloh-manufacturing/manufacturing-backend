@@ -10,22 +10,21 @@ export class ProductsService {
   @Inject() private readonly productHistoryService: ProductHistoryService;
 
   async create(params) {
-    await this.productHistoryService.create(params);
-
     return await this.productsRepo.knex.transaction(async (trx) => {
+      await this.productHistoryService.create(trx, params);
+
       const product = await this.productsRepo.getByUniqueCodeWithTransaction(
         trx,
         params.unique_code,
       );
 
       if (!isEmpty(product)) {
-        console.log(Number(params.value) + Number(product.value));
         const data = await this.productsRepo.updateByUniqueCodeWithTransaction(
           trx,
           params.unique_code,
           {
             value: Number(params.value) + Number(product.value),
-            price: Number(params.price) + Number(product.price)
+            price: Number(params.price) + Number(product.price),
           },
         );
 

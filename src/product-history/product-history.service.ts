@@ -5,8 +5,8 @@ import { ProductHistoryRepo } from './repo/product-history.dto';
 export class ProductHistoryService {
     @Inject() private readonly productHistoryRepo: ProductHistoryRepo;
 
-  async create(params) {
-    const data = await this.productHistoryRepo.insert({
+  async create(trx, params) {
+    const data = await this.productHistoryRepo.insertWithTransaction(trx, {
         id: this.productHistoryRepo.generateRecordId(),
         category_id: params.category_id,
         sub_category_id: params.sub_category_id,
