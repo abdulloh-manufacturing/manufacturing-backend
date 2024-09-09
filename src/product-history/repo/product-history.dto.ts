@@ -63,21 +63,21 @@ export class ProductHistoryRepo extends BaseRepo<any> {
 
     const query = knex
       .select([
-        'p.id',
-        'p.category_id',
-        'p.sub_category_id',
-        'p.valume_type_id',
-        'p.value',
-        'p.created_at',
-        'p.color',
-        'p.code',
-        'p.price',
-        'p.currency_type',
-        'p.unique_code',
+        'ph.id',
+        'ph.category_id',
+        'ph.sub_category_id',
+        'ph.valume_type_id',
+        'ph.value',
+        'ph.created_at',
+        'ph.color',
+        'ph.code',
+        'ph.price',
+        'ph.currency_type',
+        'ph.unique_code',
       ])
-      .from(`${this.tableName} as p`)
-      .where('p.id', params.id)
-      .whereRaw('p.is_deleted is not true')
+      .from(`${this.tableName} as ph`)
+      .where('ph.id', params.id)
+      .whereRaw('ph.is_deleted is not true')
       .first();
 
     return query;
