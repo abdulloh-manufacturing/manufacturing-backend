@@ -11,13 +11,7 @@ export class ProductHistoryRepo extends BaseRepo<any> {
   async list(params) {
     const knex = this.knex;
 
-    const {
-      keyword,
-      from_date,
-      to_date,
-      page,
-      limit = 20,
-    } = params;
+    const { keyword, from_date, to_date, page, limit = 20 } = params;
     const offset = (page - 1) * limit;
 
     const query = knex
@@ -33,7 +27,7 @@ export class ProductHistoryRepo extends BaseRepo<any> {
         'ph.price',
         'ph.currency_type',
         'ph.created_at',
-        'ph.unique_code'
+        'ph.unique_code',
       ])
       .from(`${this.tableName} as ph`)
       .leftJoin('category as c', 'ph.category_id', 'c.id')
@@ -64,6 +58,31 @@ export class ProductHistoryRepo extends BaseRepo<any> {
     return query;
   }
 
+  async getOne(params) {
+    const knex = this.knex;
+
+    const query = knex
+      .select([
+        'p.id',
+        'p.category_id',
+        'p.sub_category_id',
+        'p.valume_type_id',
+        'p.value',
+        'p.created_at',
+        'p.color',
+        'p.code',
+        'p.price',
+        'p.currency_type',
+        'p.unique_code',
+      ])
+      .from(`${this.tableName} as p`)
+      .where('p.id', params.id)
+      .whereRaw('p.is_deleted is not true')
+      .first();
+
+    return query;
+  }
+
   async updateOne(params) {
     const data = await this.updateById(params.id, {
       category_id: params.category_id,
@@ -74,7 +93,7 @@ export class ProductHistoryRepo extends BaseRepo<any> {
       code: params.code,
       price: params.price,
       currency_type: params.currency_type,
-      unique_code: params.unique_code
+      unique_code: params.unique_code,
     });
 
     return data;
