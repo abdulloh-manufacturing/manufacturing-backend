@@ -103,10 +103,17 @@ export class BaseRepo<T> implements IBaseQuery<T> {
     return data;
   }
 
-  insertWithTransaction(trx: Knex.Transaction | Knex, value: T | T[], returning = ['*']) {
-		let queryBuilder = trx.insert(value).into(this._tableName).returning(returning);
-		return queryBuilder.then((data) => (data.length === 1 ? data[0] : data));
-	}
+  insertWithTransaction(
+    trx: Knex.Transaction | Knex,
+    value: T | T[],
+    returning = ['*'],
+  ) {
+    let queryBuilder = trx
+      .insert(value)
+      .into(this._tableName)
+      .returning(returning);
+    return queryBuilder.then((data) => (data.length === 1 ? data[0] : data));
+  }
 
   async updateByIdWithTransaction(
     trx: Knex.Transaction,
@@ -149,7 +156,12 @@ export class BaseRepo<T> implements IBaseQuery<T> {
     unique_code: string,
     columns = ['*'],
   ): Promise<T> {
-    return trx.select(columns).from(this._tableName).where('unique_code', unique_code).first();
+    return trx
+      .select(columns)
+      .from(this._tableName)
+      .where('unique_code', unique_code)
+      .whereRaw('is_deleted is not true')
+      .first();
   }
 
   async delete(whereMap, returning = ['*'], trx?) {

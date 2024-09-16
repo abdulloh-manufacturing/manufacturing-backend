@@ -51,7 +51,8 @@ export class ProductHistoryRepo extends BaseRepo<any> {
         innerWhere
           .orWhereRaw(`c.name ilike ?`, ['%' + keyword + '%'])
           .orWhereRaw(`sc.name ilike ?`, ['%' + keyword + '%'])
-          .orWhereRaw(`vt.name ilike ?`, ['%' + keyword + '%']),
+          .orWhereRaw(`vt.name ilike ?`, ['%' + keyword + '%'])
+          .orWhereRaw(`ph.unique_code ilike ?`, ['%' + keyword + '%'])
       );
     }
 

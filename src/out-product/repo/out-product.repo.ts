@@ -53,6 +53,7 @@ export class OutProductRepo extends BaseRepo<any> {
                 .orWhereRaw(`c.name ilike ?`, ['%' + keyword + '%'])
                 .orWhereRaw(`sc.name ilike ?`, ['%' + keyword + '%'])
                 .orWhereRaw(`vt.name ilike ?`, ['%' + keyword + '%'])
+                .orWhereRaw(`p.unique_code ilike ?`, ['%' + keyword + '%'])
         );
     }
 
