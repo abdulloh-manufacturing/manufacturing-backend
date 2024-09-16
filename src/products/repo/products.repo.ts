@@ -35,7 +35,7 @@ export class ProductsRepo extends BaseRepo<any> {
   async list(params) {
     const knex = this.knex;
 
-    const {keyword, from_date, to_date, is_deleted, page, limit = 20 } = params;
+    const {keyword, from_date, to_date, page, limit = 20 } = params;
     const offset = (page - 1) * limit;
 
     const query = knex
@@ -57,17 +57,10 @@ export class ProductsRepo extends BaseRepo<any> {
       .leftJoin('category as c', 'p.category_id', 'c.id')
       .leftJoin('sub_category as sc', 'sc.id', 'p.sub_category_id')
       .leftJoin('valume_types as vt', 'p.valume_type_id', 'vt.id')
+      .whereRaw('p.is_deleted is not true')
       .orderBy('p.created_at', 'desc')
       .limit(limit ? Number(limit) : 20)
       .offset(offset ? Number(offset) : 0);
-
-    if (is_deleted === false) {
-      query.whereRaw('p.is_deleted is not true');
-    }
-
-    if (is_deleted === true) {
-      query.whereRaw('p.is_deleted is true');
-    }
 
     if (from_date) {
       query.where(`p.created_at`, '>=', knex.raw('?', from_date));

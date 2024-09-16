@@ -118,11 +118,6 @@ export class ProductListDto {
   @IsOptional()
   to_date: Date | string;
 
-  @ApiProperty()
-  @IsBoolean()
-  @IsOptional()
-  is_deleted: boolean;
-
   @ApiProperty({ example: 1 })
   @IsNumber()
   @IsOptional()
