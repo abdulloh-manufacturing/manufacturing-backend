@@ -18,8 +18,9 @@ export class ValumeTypeRepo extends BaseRepo<any> {
   }
 
   async updateOne(params) {
+    
     const data = await this.updateById(params.id, {
-      name: params.valume_name,
+      name: params.valume_type_name,
       sub_category_id: params.sub_category_id,
     });
 
